@@ -8,9 +8,9 @@ export default function ListItem({ item }) {
     return (
         <TouchableHighlight
             onPress={handleCheck}
-            activeOpacity={0.6}
+            activeOpacity={0.8}
             style={styles.item}
-            underlayColor="#536aa5"
+            underlayColor="#E0E0E0"
         >
             <Text style={[styles.text, check ? styles.textCheck : '']}>{item.text}</Text>
         </TouchableHighlight>
