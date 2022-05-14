@@ -1,17 +1,17 @@
 import React, { useState } from "react";
+import { storeData } from '../utils/storeUtils';
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 
 export default function Form({ setTasks }) {
     const [value, setValue] = useState('');
-    const [count, setCount] = useState();
 
-    const handleAddValue = (evt) => {
-        console.log(evt.currentTarget);
+    const handleAddValue = () => {
         if (value.length > 0) {
+            const newValue = { text: value };
             setTasks(prev => ([
                 ...prev,
-                { text: value },
-            ]));
+                newValue,
+            ]), (nextState) => storeData(nextState, 'taskList'));
             setValue('');
         } else {
             // добавить обработчик для пустого значения

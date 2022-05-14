@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { getData } from './utils/storeUtils';
 import { StyleSheet, View, FlatList, Text } from "react-native";
 import Header from "./components/Header";
 import ListItem from "./components/ListItem";
 import Form from "./components/Form";
+import useStateCallback from "./hooks/useStateCallback";
 
 export default function App() {
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useStateCallback([]);
 
     useEffect(() => {
-        // загрузка по сети
-    }, []);
+        // загрузка из LS
+        const data = getData('taskList');
+        data.then(data => setTasks(data !== null ? data : []));
+    }, [setTasks]);
 
   return (
     <View style={styles.main}>
