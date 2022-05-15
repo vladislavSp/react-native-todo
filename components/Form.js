@@ -50,13 +50,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     input: {
-        width: 250,
+        flex: 1,
+        flexBasis: 250,
         paddingVertical: 15,
         paddingHorizontal: 15,
         color: '#fff',
         backgroundColor: '#33CC99',
         borderRadius: 60,
         textAlign: 'center',
+        marginRight: Platform.isPad ? 24 : 16,
     },
     addWrapper: {
         alignItems: 'center',
