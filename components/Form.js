@@ -7,7 +7,7 @@ export default function Form({ setTasks }) {
 
     const handleAddValue = () => {
         if (value.length > 0) {
-            const newValue = { text: value };
+            const newValue = { text: value, id: new Date() };
             setTasks(prev => ([
                 ...prev,
                 newValue,

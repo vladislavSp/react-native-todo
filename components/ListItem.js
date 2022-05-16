@@ -1,19 +1,46 @@
 import React, { useState } from "react";
-import { TouchableHighlight, Text, StyleSheet } from "react-native";
+import { TouchableHighlight, Text, StyleSheet, Button, View } from "react-native";
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
-export default function ListItem({ item }) {
+
+export default function ListItem({ item, index, row, closeRow, onDelete }) {
     const [check, setCheck] = useState(false);
     const handleCheck = () => setCheck(prev => !prev);
 
+    const renderRightActions = () => {
+        return (
+            <View style={styles.deleteButton}>
+                <Button
+                    onPress={onDelete}
+                    color="red"
+                    title="Удалить"
+                >
+                </Button>
+            </View>
+        );
+  };
+
     return (
-        <TouchableHighlight
-            onPress={handleCheck}
-            activeOpacity={0.8}
-            style={styles.item}
-            underlayColor="#E0E0E0"
+        <Swipeable
+            renderRightActions={renderRightActions}
+            onSwipeableOpen={(direction) => {
+                console.log(direction);
+                closeRow(index);
+            }}
+            ref={(ref) => (row[index] = ref)}
+            rightOpenValue={-150}
+            enableTrackpadTwoFingerGesture
+            friction={2}
         >
-            <Text style={[styles.text, check ? styles.textCheck : '']}>{item.text}</Text>
-        </TouchableHighlight>
+            <TouchableHighlight
+                onPress={handleCheck}
+                activeOpacity={0.8}
+                style={styles.item}
+                underlayColor="#E0E0E0"
+            >
+                <Text style={[styles.text, check ? styles.textCheck : '']}>{item.text}</Text>
+            </TouchableHighlight>
+        </Swipeable>
     )
 };
 
@@ -34,5 +61,11 @@ const styles = StyleSheet.create({
     textCheck: {
         backgroundColor: 'rgba(51, 204, 153, 0.5)',
         textDecorationLine: 'line-through',
+    },
+    deleteButton: {
+        margin: 0,
+        alignContent: 'center',
+        width: 80,
+        justifyContent: 'center',
     }
 });

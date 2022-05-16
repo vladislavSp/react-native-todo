@@ -18,4 +18,13 @@ export const getData = async (value) => {
         // log error
         console.log(error);
     }
-}
+};
+
+export const clearAll = async () => {
+    try {
+        await AsyncStorage.clear();
+    } catch (error) {
+        // error
+        console.log(error);
+    }
+};

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { getData } from './utils/storeUtils';
-import { StyleSheet, View, FlatList, Text } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 import Header from "./components/Header";
 import ListItem from "./components/ListItem";
 import Form from "./components/Form";
@@ -8,6 +8,8 @@ import useStateCallback from "./hooks/useStateCallback";
 
 export default function App() {
     const [tasks, setTasks] = useStateCallback([]);
+    let row = [];
+    let prevOpenedRow;
 
     useEffect(() => {
         // загрузка из LS
@@ -15,16 +17,35 @@ export default function App() {
         data.then(data => setTasks(data !== null ? data : []));
     }, [setTasks]);
 
+    const closeRowHandler = (index) => {
+        if (prevOpenedRow && prevOpenedRow !== row[index]) {
+            prevOpenedRow.close();
+        }
+        prevOpenedRow = row[index];
+    };
+
+    const deleteRowHandler = (item, index) => {
+        console.log(index);
+    };
+
   return (
     <View style={styles.main}>
         <Header title={"Список дел"} />
 
         <FlatList
             contentContainerStyle={{ paddingBottom: 20 }}
+            keyExtractor={(item => item.id)}
             style={styles.list}
             data={tasks}
-            renderItem={({ item }) => (
-                <ListItem key={item.text} item={item} />
+            renderItem={({ item, index }) => (
+                <ListItem
+                    key={item.id}
+                    index={index}
+                    item={item}
+                    row={row}
+                    closeRow={closeRowHandler}
+                    onDelete={() => deleteRowHandler(index)}
+                />
             )}
         />
 
