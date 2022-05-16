@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import { storeData } from '../utils/storeUtils';
-import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
+import { randomNumber } from '../utils/appUtils';
+import {
+    StyleSheet,
+    View,
+    Text,
+    TextInput,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableOpacity
+} from "react-native";
 
 export default function Form({ setTasks }) {
     const [value, setValue] = useState('');
 
     const handleAddValue = () => {
         if (value.length > 0) {
-            const newValue = { text: value, id: new Date() };
+            const newValue = { text: value, id: (new Date() + randomNumber()) };
             setTasks(prev => ([
                 ...prev,
                 newValue,
@@ -21,7 +30,7 @@ export default function Form({ setTasks }) {
     return (
         <KeyboardAvoidingView
             style={styles.writeWrapper}
-            behavior={Platform.OS === 'ios' ? "padding" : "height" }
+            behavior={Platform.OS === 'ios' ? "padding" : "height"}
         >
             <TextInput
                 value={value}
@@ -70,5 +79,5 @@ const styles = StyleSheet.create({
     },
     addText: {
         color: '#FFF',
-    }
+    },
 });

@@ -38,7 +38,6 @@ export default function ListItem({ item, index, row, closeRow, onDelete }) {
 };
 
 const styles = StyleSheet.create({
-
     item: {
         margin: 6,
         paddingLeft: 24,
@@ -71,5 +70,5 @@ const styles = StyleSheet.create({
     deleteBtnText: {
         color: '#FF0000',
         textAlign: 'center',
-    }
+    },
 });
