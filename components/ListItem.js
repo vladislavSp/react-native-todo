@@ -1,32 +1,25 @@
 import React, { useState } from "react";
 import { TouchableHighlight, Text, StyleSheet, Button, View } from "react-native";
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-
+import { RectButton } from 'react-native-gesture-handler';
 
 export default function ListItem({ item, index, row, closeRow, onDelete }) {
     const [check, setCheck] = useState(false);
+    const [swipeOpen, setSwipeOpen] = useState(false);
     const handleCheck = () => setCheck(prev => !prev);
 
     const renderRightActions = () => {
         return (
-            <View style={styles.deleteButton}>
-                <Button
-                    onPress={onDelete}
-                    color="red"
-                    title="Удалить"
-                >
-                </Button>
-            </View>
+            <RectButton style={styles.deleteBtn} onPress={onDelete}>
+                <Text style={styles.deleteBtnText}>Удалить</Text>
+            </RectButton>
         );
   };
 
     return (
         <Swipeable
             renderRightActions={renderRightActions}
-            onSwipeableOpen={(direction) => {
-                console.log(direction);
-                closeRow(index);
-            }}
+            onSwipeableOpen={() => closeRow(index)}
             ref={(ref) => (row[index] = ref)}
             rightOpenValue={-150}
             enableTrackpadTwoFingerGesture
@@ -35,7 +28,7 @@ export default function ListItem({ item, index, row, closeRow, onDelete }) {
             <TouchableHighlight
                 onPress={handleCheck}
                 activeOpacity={0.8}
-                style={styles.item}
+                style={[styles.item, swipeOpen ? styles.itemSwipe : '']}
                 underlayColor="#E0E0E0"
             >
                 <Text style={[styles.text, check ? styles.textCheck : '']}>{item.text}</Text>
@@ -45,10 +38,16 @@ export default function ListItem({ item, index, row, closeRow, onDelete }) {
 };
 
 const styles = StyleSheet.create({
+
     item: {
+        margin: 6,
+        paddingLeft: 24,
         overflow: 'hidden',
-        marginBottom: 16,
         borderRadius: 16,
+    },
+    itemSwipe: {
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
     },
     text: {
         padding: 20,
@@ -62,10 +61,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(51, 204, 153, 0.5)',
         textDecorationLine: 'line-through',
     },
-    deleteButton: {
+    deleteBtn: {
         margin: 0,
-        alignContent: 'center',
-        width: 80,
+        alignItems: 'center',
         justifyContent: 'center',
+        width: 80,
+        borderRadius: 16,
+    },
+    deleteBtnText: {
+        color: '#FF0000',
+        textAlign: 'center',
     }
 });

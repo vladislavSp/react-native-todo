@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { getData } from './utils/storeUtils';
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Text } from "react-native";
 import Header from "./components/Header";
 import ListItem from "./components/ListItem";
 import Form from "./components/Form";
@@ -32,22 +32,26 @@ export default function App() {
     <View style={styles.main}>
         <Header title={"Список дел"} />
 
-        <FlatList
-            contentContainerStyle={{ paddingBottom: 20 }}
-            keyExtractor={(item => item.id)}
-            style={styles.list}
-            data={tasks}
-            renderItem={({ item, index }) => (
-                <ListItem
-                    key={item.id}
-                    index={index}
-                    item={item}
-                    row={row}
-                    closeRow={closeRowHandler}
-                    onDelete={() => deleteRowHandler(index)}
-                />
-            )}
-        />
+        {tasks.length === '0'
+            ? <Text>Добавьте сюда свои задачи</Text> :
+            <FlatList
+                contentContainerStyle={{ paddingBottom: 20 }}
+                keyExtractor={(item => item.id)}
+                style={styles.list}
+                data={tasks}
+                renderItem={({ item, index }) => (
+                    <ListItem
+                        style={styles.slide}
+                        key={item.id}
+                        index={index}
+                        item={item}
+                        row={row}
+                        closeRow={closeRowHandler}
+                        onDelete={() => deleteRowHandler(index)}
+                    />
+                )}
+            />
+         }
 
         <Form setTasks={setTasks} />
     </View>
@@ -61,8 +65,11 @@ const styles = StyleSheet.create({
         paddingBottom: 140,
     },
     list: {
-        paddingHorizontal: 24,
+        paddingRight: 24,
         paddingTop: 24,
         paddingBottom: 60,
+    },
+    slide: {
+        marginBottom: 16,
     }
 });
