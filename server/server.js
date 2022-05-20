@@ -1,77 +1,59 @@
-// const os = require('os');
-// const path = require('path');
-
-// console.log(os.type());
-// console.log(os.homedir());
-// console.log(__dirname);
-// console.log(__filename);
-
-// console.log(path.dirname(__filename));
-// console.log(path.basename(__filename));
-// console.log(path.parse(__filename));
-
-
-//// FILE SYSTEMS
-const fs = require('fs');
-const fsPromises = require('fs/promises'); // или requare('fs').promises
+const express = require('express');
+const app = express();
 const path = require('path');
+const cors = require('cors');
+const { logger } = require('./middleware/logEvents');
+const errorHandler = require('./middleware/errorHandler');
+const PORT = process.env.PORT || 3500;
 
-// Чтение файла БЕЗ ПРОМСОВ 'start.txt', 2-м параметром идет кодировка и 3-м callback
-// fs.readFile(path.join(__dirname, 'files', 'start.txt'), 'utf8', (err, data) => {
-//     if (err) throw err;
-//     console.log(data);
-// });
+// custom middleware logger
+app.use(logger);
 
-// ПЕРЕХВАТ НЕОБРАБОТАННОЙ ОШИБКИ
-// process.on('uncaughtException', err => {
-//     console.error(`There was an uncaught error: ${err}`);
-//     process.exit(1);
-// })
 
-// Запись в файл 'reply.txt', информации 'Nice to meet you!' и затем callback
-// но такая запись превращается в ад-коллбэков - поэтому нужны промисы
-// fs.writeFile(path.join(__dirname, 'files', 'reply.txt'), ' Nice to meet you!', (err) => {
-//     if (err) throw err;
-//     console.log('Operation write complete!');
+// cors - Cross Origin Resourse Sharing
+const whitelist = ['https://www.mysite.com', 'http://127.0.0.1:3000', 'http://localhost:3500/', 'https://www.google.com', 'http://127.0.0.1:3500'];
 
-//     fs.appendFile(path.join(__dirname, 'files', 'reply.txt'), ' Append text!', (err) => {
-//         if (err) throw err;
-//         console.log('Append complete!');
-
-//         fs.rename(path.join(__dirname, 'files', 'reply.txt'), path.join(__dirname, 'files', 'newReply.txt'), (err) => {
-//             if (err) throw err;
-//             console.log('Rename complete!');
-//         });
-//     });
-// });
-
-// Изменение/добавление в файл
-// fs.appendFile(path.join(__dirname, 'files', 'reply.txt'), ' Append text!', (err) => {
-//     if (err) throw err;
-//     console.log('Append complete!');
-// });
-
-// Переименовать файл - аналогично
-// fs.rename(path.join(__dirname, 'files', 'reply.txt'), path.join(__dirname, 'files', 'newReply.txt'), (err) => {
-//     if (err) throw err;
-//     console.log('Rename complete!');
-// });
-
-const fileOps = async () => {
-    try {
-        const data = await fsPromises.readFile(path.join(__dirname, 'files', 'start.txt'), 'utf8');
-        console.log(data);
-
-        await fsPromises.unlink(path.join(__dirname, 'files', 'start.txt'));
-
-        await fsPromises.writeFile(path.join(__dirname, 'files', 'promiseFile.txt'), data);
-        await fsPromises.appendFile(path.join(__dirname, 'files', 'promiseFile.txt'), '\n\nNice to meet you!');
-        const newData = await fsPromises.readFile(path.join(__dirname, 'files', 'promiseFile.txt'), 'utf8');
-
-        console.log(newData);
-    } catch (e) {
-        console.error(e);
-    }
+const corsOptions = {
+    origin: (origin, callback) => {
+        console.log('Origin: ', origin);
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    optionsSuccessStatus: 200,
 };
 
-fileOps();
+app.use(cors(corsOptions));
+
+
+// Middleware для formdata, json, статичный файлов стилей, изображений и тд
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+// auto search static files in public folder
+app.use(express.static(path.join(__dirname, '/public')));
+
+//'^/$|/index(.html)?' - регулярка для поиска главной страницы
+app.get('^/$|/index(.html)?', (req, res) => {
+    res.send('Hello Server!'); // sendFile
+});
+
+
+// 301 редирект со старой страницы
+app.get('/old-page(.html)?', (req, res) => {
+    res.redirect(301, '/file');
+});
+
+app.get('/file', (req, res) => {
+    res.sendFile(path.join(__dirname, 'files', 'newReply.txt'));
+});
+
+// РЕДИРЕКТ НЕЗАРЕГИСТРИРОВАННЫХ МАРШРУТОВ
+app.get('/*', (req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+});
+
+app.use(errorHandler);
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT} - http://localhost:${PORT}`));
