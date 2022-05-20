@@ -28,3 +28,13 @@
 20220520	18:02:02	85f13367-973f-4809-a48e-5df4059d35dd	GET	undefined	/
 20220520	18:06:52	d447f025-6854-4125-a11b-3817f116aa97	GET	undefined	/
 20220520	18:06:57	f3070f14-6408-4506-8a4c-733689229779	GET	https://www.google.ru	/
+20220520	20:58:11	bd0543ad-14bd-4f39-adf4-40be649ee6fb	GET	undefined	/
+20220520	20:58:11	da3b3517-8e62-4fec-8900-5c8cead744a8	GET	undefined	/favicon.ico
+20220520	20:58:16	81c3af41-4428-4e8a-9611-5d02f55d3b68	GET	undefined	/asdas
+20220520	20:58:16	0f02ba82-00ae-45bd-924c-fdde893b7888	GET	undefined	/img/404.png
+20220520	20:59:10	ca3e87e1-05d2-434a-898a-ef273f22d0f0	GET	https://www.google.ru	/
+20220520	20:59:40	7ae2aeb7-e344-4770-9f35-4fb9fe3c25a0	GET	https://www.google.ru	/
+20220520	20:59:53	60ed05e2-3033-438c-8012-e429cc6e18da	GET	https://www.google.com	/
+20220520	21:00:09	0d091db9-28c6-48c2-93c3-e23459b70f10	GET	undefined	/
+20220520	21:04:39	de36b808-da6f-48a3-a04f-c0234abf35b9	GET	https://www.google.com	/hh.json
+20220520	21:05:05	ead75c5c-a678-481f-943e-d00cbd5acd74	GET	undefined	/asd.json
