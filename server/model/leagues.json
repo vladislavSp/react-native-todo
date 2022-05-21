@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "name": "Premier League",
+        "country": "English"
+    },
+    {
+        "id": 2,
+        "name": "Eredivisie",
+        "country": "Nederland"
+    }
+]

@@ -22,7 +22,7 @@ const logEvents = async (message, logName) => {
 
 const logger = (req, res, next) => {
     logEvents(`${req.method}\t${req.headers.origin}\t${req.url}`, 'reqLog.txt');
-    console.log(`Метод: ${req.method}\nПуть: ${req.path}`);
+    console.log(`Middleware logger, method: ${req.method}\nPath: ${req.path}`);
     next();
 }
 
