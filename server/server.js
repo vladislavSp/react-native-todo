@@ -21,6 +21,8 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 //routes
 app.use('/', require('./routes/root')); // connect routes for the main page
+app.use('/register', require('./routes/register')); // connect routes for the register
+app.use('/auth', require('./routes/auth')); // connect routes for the register
 app.use('/leagues', require('./routes/api/league')); // connect routes for the api
 
 // redirect unregistered routes and check file-types
