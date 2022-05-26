@@ -33,7 +33,6 @@ const updateLeague = (req, res) => {
     const filteredArray = data.leagues.filter(league => league.id !== parseInt(req.body.id));
     const unsortedArray = [...filteredArray, league];
     data.setLeagues(unsortedArray.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
-    // console.log(unsortedArray);
     res.json(data.leagues);
 };
 

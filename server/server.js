@@ -5,17 +5,28 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
+const credentials = require('./middleware/credentials');
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3500;
 
 // custom middleware logger
 app.use(logger);
-// Cors middleware - Cross Origin Resourse Sharing(cors)
+
+// credentials check before CORS
+// and fetch cookies credentials requirement
+app.use(credentials);
+
+// Cors middleware - Cross Origin Resourse Sharing
 app.use(cors(corsOptions));
 
 // Middleware for the formdata, json, static files, styles, images
 app.use(express.urlencoded({ extended: false }));
 // built-in middleware for json
 app.use(express.json());
+
+// middleware for cookies
+app.use(cookieParser());
+
 // auto search static files in public folder
 app.use(express.static(path.join(__dirname, '/public')));
 
@@ -23,6 +34,9 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use('/', require('./routes/root')); // connect routes for the main page
 app.use('/register', require('./routes/register')); // connect routes for the register
 app.use('/auth', require('./routes/auth')); // connect routes for the register
+app.use('/refresh', require('./routes/refresh')); // connect r for the refresh token
+app.use('/logout', require('./routes/logout')); // connect r for the logout
+
 app.use('/leagues', require('./routes/api/league')); // connect routes for the api
 
 // redirect unregistered routes and check file-types
