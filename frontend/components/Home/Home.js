@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { View, FlatList, Text, KeyboardAvoidingView } from "react-native";
+import React, { useEffect } from 'react';
+import { View, FlatList, Text, KeyboardAvoidingView } from 'react-native';
 import { getData, storeData } from '../../utils/storeUtils';
-import Header from "../Header";
-import ListItem from "../ListItem";
-import Form from "../Form";
-import useStateCallback from "../../hooks/useStateCallback";
+import Header from '../Header';
+import ListItem from '../ListItem';
+import Form from '../Form';
+import useStateCallback from '../../hooks/useStateCallback';
 import { styles } from './HomeStyles';
 
 export default function Home({ navigate }) {

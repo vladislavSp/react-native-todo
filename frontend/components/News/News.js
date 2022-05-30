@@ -1,15 +1,46 @@
-import React, { useState, useEffect } from "react";
-import { View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, Text, Image } from 'react-native';
 import { apiRoute } from '../../api/constants';
+import { LinearGradient } from 'expo-linear-gradient';
+import { styles } from './NewsStyles';
+import LionSvg from '../../assets/images/icons/lion.svg';
+import LaLiga from '../../assets/images/icons/laliga.svg';
+
+const mockData = [
+    {
+        name: 'Premiere League',
+        gradient: {
+            bg1: '#A32FFF',
+            bg2: '#7000FF',
+        },
+        icon: LionSvg,
+    }, {
+        name: 'LaLiga',
+        gradient: {
+            bg1: '#FE0000',
+            bg2: '#FE7B01',
+        },
+        icon: LaLiga,
+    }, {
+        name: 'Bundesliga',
+        gradient: {
+            bg1: '#FFB627',
+            bg2: '#FF8413',
+        },
+        icon: LaLiga,
+    },
+];
 
 export default function News() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(mockData);
+    const numColumns = 2;
+    const initialNumToRender = 8;
 
-    useEffect(() => {
-        // Запрос лиг
+    useEffect(() => setData(mockData), []); // update
+
+    useEffect(() => { // Запрос лиг
         const fetchData = async () => {
-            try {
-                // leagues?id=39
+            try { // leagues?id=39
                 const url = `${apiRoute}/leagues`;
                 const data = await fetch(url, {
                     "Content-Type": "application/json",
@@ -25,32 +56,47 @@ export default function News() {
                 console.warn(error);
             }
         };
-
         // fetchData();
-
         // fetch('https://datahub.io/sports-data/english-premier-league/datapackage.json', {
         //     headers: {
         //         Accept: 'application/json',
         //         'Content-Type': 'application/json'
         //     },
-        // })
-        // .then(data => data.json()
+        // }).then(data => data.json()
         // .then(json => setData(json))
-        // )
-        // .catch(e => {
+        // ).catch(e => {
         //     console.warn(e);
         // });
     }, []);
 
-    console.log(data);
-
-    // if (data.length === 0) {
-    //     return <LoadingScreen></LoadingScreen>
-    // }
-
     return (
-        <View>
-            <Text>News!</Text>
+        <View style={styles.wrapper}>
+            {data.length === 0 ? (
+                <Text>Mock</Text>
+            ) : (
+                <FlatList
+                    style={styles.container}
+                    initialNumToRender={initialNumToRender}
+                    contentContainerStyle={{ paddingBottom: 20 }}
+                    columnWrapperStyle={{ justifyContent: 'space-between' }}
+                    keyExtractor={(item => item.id)}
+                    data={data}
+                    pagingEnabled={true}
+                    numColumns={numColumns}
+                    renderItem={({ item }) => (
+                        <LinearGradient
+                            key={item.id}
+                            colors={[item.gradient.bg1, item.gradient.bg2]}
+                            style={styles.slide}
+                        >
+                            <View style={styles.textWrap}>
+                                <item.icon width={30} height={30} />
+                                <Text style={styles.text}>{item.name}</Text>
+                            </View>
+                        </LinearGradient>
+                    )}
+                />
+            )}
         </View>
     )
 }

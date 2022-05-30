@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NotesScreen from './components/Home/Home';
@@ -21,6 +22,7 @@ export default function App() {
                     'OpenSans-Bold': require('./assets/fonts/OpenSans-Bold.ttf'),
                     'OpenSans-Regular': require('./assets/fonts/OpenSans-Regular.ttf'),
                     'OpenSans-SemiBold': require('./assets/fonts/OpenSans-SemiBold.ttf'),
+                    'PilatExtended-Heavy': require('./assets/fonts/PilatExtended-Heavy.ttf'),
                 });
             } catch (e) {
                 console.warn(e);
@@ -48,9 +50,18 @@ export default function App() {
 
     return (
         <NavigationContainer onReady={onLayoutRootView}>
-            <Tab.Navigator screenOptions={{ tabBarActiveTintColor: '#6664cc',}}>
+            <Tab.Navigator
+                screenOptions={{
+                    tabBarActiveTintColor: '#fff',
+                    tabBarStyle: styles.tabBar,
+                    headerStyle: styles.header,
+                    headerTitleStyle: styles.headerText,
+                    headerStatusBarHeight: 65,
+                    headerShadowVisible: false, // убираем бордер на нижней границе header
+                }}
+            >
                 <Tab.Screen
-                    name="News"
+                    name="Sport time"
                     component={NewsScreen}
                     options={{
                         tabBarLabel: 'News',
@@ -73,3 +84,22 @@ export default function App() {
         </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+    header: {
+        backgroundColor: '#282A31',
+        height: 135,
+        borderBottomWidth: 0,
+    },
+    headerText: {
+        textTransform: 'uppercase',
+        color: '#fff',
+        fontSize: 30,
+        fontWeight: '700',
+        fontFamily: 'PilatExtended-Heavy',
+    },
+    tabBar: {
+        backgroundColor: '#282A31',
+        borderTopColor: '#282A31',
+    },
+});
