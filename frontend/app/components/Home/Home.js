@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, Image } from 'react-native';
-import { apiRoute } from '../../api/constants';
+import { View, FlatList, Text, TouchableHighlight } from 'react-native';
+import { apiRoute } from '../../../api/constants';
 import { LinearGradient } from 'expo-linear-gradient';
-import { styles } from './NewsStyles';
-import LionSvg from '../../assets/images/icons/lion.svg';
-import LaLiga from '../../assets/images/icons/laliga.svg';
+import { styles } from './HomeStyles';
+import LionSvg from '../../../assets/images/icons/lion.svg';
+import LaLiga from '../../../assets/images/icons/laliga.svg';
 
 const mockData = [
     {
@@ -31,7 +31,7 @@ const mockData = [
     },
 ];
 
-export default function News() {
+export default function Home({ navigation }) {
     const [data, setData] = useState(mockData);
     const numColumns = 2;
     const initialNumToRender = 8;
@@ -84,16 +84,24 @@ export default function News() {
                     pagingEnabled={true}
                     numColumns={numColumns}
                     renderItem={({ item }) => (
-                        <LinearGradient
-                            key={item.id}
-                            colors={[item.gradient.bg1, item.gradient.bg2]}
-                            style={styles.slide}
+                        <TouchableHighlight
+                            onPress={() => {
+                                navigation.navigate('Details', {
+                                    itemName: item.name,
+                                })}
+                            }
                         >
-                            <View style={styles.textWrap}>
-                                <item.icon width={30} height={30} />
-                                <Text style={styles.text}>{item.name}</Text>
-                            </View>
-                        </LinearGradient>
+                            <LinearGradient
+                                key={item.id}
+                                colors={[item.gradient.bg1, item.gradient.bg2]}
+                                style={styles.slide}
+                            >
+                                <View style={styles.textWrap}>
+                                    <item.icon width={30} height={30} />
+                                    <Text style={styles.text}>{item.name}</Text>
+                                </View>
+                            </LinearGradient>
+                        </TouchableHighlight>
                     )}
                 />
             )}

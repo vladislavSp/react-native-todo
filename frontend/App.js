@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback } from 'react';
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import NotesScreen from './components/Home/Home';
-import NewsScreen from './components/News/News';
+import NotesScreen from './app/components/Notes/Notes';
+import HomeNavigation from './app/navigation/HomeNavigation';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
-import useStateCallback from "./hooks/useStateCallback";
+import useStateCallback from "./app/hooks/useStateCallback";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import styles from './app/AppStyles.js';
 
 const Tab = createBottomTabNavigator();
 
@@ -62,17 +62,7 @@ export default function App() {
             >
                 <Tab.Screen
                     name="Sport time"
-                    component={NewsScreen}
-                    options={{
-                        tabBarLabel: 'News',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="newspaper-variant" color={color} size={size} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="Notes"
-                    component={NotesScreen}
+                    component={HomeNavigation}
                     options={{
                         tabBarLabel: 'Home',
                         tabBarIcon: ({ color, size }) => (
@@ -80,26 +70,17 @@ export default function App() {
                         ),
                     }}
                 />
+                <Tab.Screen
+                    name="Notes"
+                    component={NotesScreen}
+                    options={{
+                        tabBarLabel: 'Notes',
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="note" color={color} size={size} />
+                        ),
+                    }}
+                />
             </Tab.Navigator>
         </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-    header: {
-        backgroundColor: '#282A31',
-        height: 135,
-        borderBottomWidth: 0,
-    },
-    headerText: {
-        textTransform: 'uppercase',
-        color: '#fff',
-        fontSize: 30,
-        fontWeight: '700',
-        fontFamily: 'PilatExtended-Heavy',
-    },
-    tabBar: {
-        backgroundColor: '#282A31',
-        borderTopColor: '#282A31',
-    },
-});

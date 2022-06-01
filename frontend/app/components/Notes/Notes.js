@@ -5,9 +5,9 @@ import Header from '../Header';
 import ListItem from '../ListItem';
 import Form from '../Form';
 import useStateCallback from '../../hooks/useStateCallback';
-import { styles } from './HomeStyles';
+import { styles } from './NotesStyles';
 
-export default function Home({ navigate }) {
+export default function Notes({ navigate }) {
     const [tasks, setTasks] = useStateCallback([]);
     let row = [];
     let prevOpenedRow;
