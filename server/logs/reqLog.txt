@@ -70,3 +70,16 @@
 20220526	17:29:46	977f842f-300d-492a-876d-7e3b625f5dec	POST	undefined	/auth
 20220526	17:30:30	0c4fc8c6-5079-4823-92fd-4d081d12caca	GET	undefined	/logout
 20220526	17:31:16	fed3f783-bfa6-4208-8b43-b6a8a1b76bf6	GET	undefined	/refresh
+20220602	14:22:48	ecad25a8-6d19-4db9-9b97-5bb584426e97	GET	undefined	/
+20220602	14:22:49	922420b3-4e91-42c3-b568-ad41218f54a9	GET	undefined	/favicon.ico
+20220602	14:23:44	4bc22f60-fca0-43c0-afd0-e7033ba48e0a	GET	undefined	/
+20220602	14:23:44	5965c440-565f-46ba-bba5-e8eb3cf75925	GET	undefined	/favicon.ico
+20220602	14:25:08	b273bbca-4e8b-4fdd-b93c-886fb7ce4bfe	GET	undefined	/
+20220602	14:25:08	6325a0c1-ded0-4e6a-b96e-d4e9b2870ea9	GET	undefined	/favicon.ico
+20220602	14:27:18	e85f4510-7840-493b-8f70-28616aed0c3d	GET	undefined	/
+20220602	14:29:55	e3b67c9a-6bf3-4823-b521-a9e403d900bd	GET	undefined	/
+20220602	14:29:56	43565f03-12dd-4f5f-9124-78e4f56a3ebe	GET	undefined	/
+20220602	14:35:01	c488263a-59bd-4bc8-ac77-0519e48f6992	GET	undefined	/
+20220602	14:35:16	befeab3b-823f-42dd-979c-35555a4d0a22	GET	undefined	/
+20220602	14:40:54	3e2e2a21-6c62-4875-aedd-075ed55af779	GET	undefined	/
+20220602	14:47:43	5cfc8b77-1526-4e57-82bb-9dff7145f0ab	GET	undefined	/

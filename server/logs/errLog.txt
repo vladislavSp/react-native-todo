@@ -6,3 +6,7 @@
 20220521	11:45:41	977f2630-16d2-4641-8010-40a1cb88b90e	Error: ENOENT: no such file or directory, stat 'G:\Work\todoRN\server\files\newReply.txt'
 20220521	12:33:56	3620a7eb-a9da-4c1f-bca8-70b4128ca4f7	Error: Cannot set headers after they are sent to the client
 20220526	17:05:53	1d9f51fb-eb3f-4df1-97a9-1b432307df0d	ReferenceError: procenn is not defined
+20220602	14:22:48	989eca2b-83a9-4dbc-8261-69e1750ff12e	TypeError: allowedOrigins.includes is not a function
+20220602	14:22:49	26f65842-525b-4bd4-859c-a7ad065b860a	TypeError: allowedOrigins.includes is not a function
+20220602	14:23:44	07fd5108-49ad-4d2e-bc88-309dff7720d4	TypeError: Cannot read properties of undefined (reading 'includes')
+20220602	14:23:44	e3eb515c-1184-4862-99b8-c2fe0c5fd691	TypeError: Cannot read properties of undefined (reading 'includes')

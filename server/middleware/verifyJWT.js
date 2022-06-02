@@ -1,6 +1,5 @@
 
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 // middleware for the control of auth by token
 const verifyJWT = (req, res, next) => {

@@ -6,6 +6,7 @@ const Details = ({ route, navigation }) => {
     console.log(itemName);
 
     return (
+        // TODO сделать обертку для отступов единых во всем приложении
         <View style={{ paddingTop: 20 }}>
             <Text>{itemName}</Text>
             <Button title="Go to Home" onPress={() => navigation.navigate('HomeStack')} />
