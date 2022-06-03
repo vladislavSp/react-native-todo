@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { View, FlatList, Text, KeyboardAvoidingView } from 'react-native';
-import { getData, storeData } from '../../utils/storeUtils';
-import Header from '../Header';
-import ListItem from '../ListItem';
-import Form from '../Form';
-import useStateCallback from '../../hooks/useStateCallback';
+import { getData, storeData } from '../../../utils/storeUtils';
+import Header from '../Header/Header';
+import ListItem from '../ListItem/ListItem';
+import Form from '../Form/Form';
+import useStateCallback from '../../../hooks/useStateCallback';
 import { styles } from './NotesStyles';
 
 export default function Notes({ navigate }) {
