@@ -3,13 +3,14 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     header: {
         backgroundColor: '#282A31',
-        height: 135,
+        height: 115,
         borderBottomWidth: 0,
     },
     headerText: {
+        paddingBottom: 20,
         textTransform: 'uppercase',
         color: '#fff',
-        fontSize: 30,
+        fontSize: 24,
         fontWeight: '700',
         fontFamily: 'PilatExtended-Heavy',
     },

@@ -1,7 +1,8 @@
 import React, { useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import NotesScreen from './app/components/Notes/Notes';
+// import NotesScreen from './app/components/Notes/Notes';
+import SettingsScreen from './app/screens/SettingsScreen/SettingsScreen';
 import HomeNavigation from './app/navigation/HomeNavigation';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
@@ -70,16 +71,27 @@ export default function App() {
                         ),
                     }}
                 />
+                {/* <Tab.Screen name="Settings" component={Settings}/> */}
                 <Tab.Screen
-                    name="Notes"
-                    component={NotesScreen}
+                    name="Settings"
+                    component={SettingsScreen}
                     options={{
-                        tabBarLabel: 'Notes',
+                        tabBarLabel: 'Settings',
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="note" color={color} size={size} />
+                            <MaterialCommunityIcons name="application-settings" color={color} size={size} />
                         ),
                     }}
                 />
+                {/* <Tab.Screen
+                    name="Notes"
+                    component={NotesScreen}
+                    options={{
+                        tabBarLabel: 'Settings',
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="account-settings" color={color} size={size} />
+                        ),
+                    }}
+                /> */}
             </Tab.Navigator>
         </NavigationContainer>
   );

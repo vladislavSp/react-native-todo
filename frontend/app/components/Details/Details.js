@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, View, Button } from 'react-native';
 
+// Страница для динамических данных
 const Details = ({ route, navigation }) => {
     const { itemName } = route.params;
-    console.log(itemName);
 
     return (
         // TODO сделать обертку для отступов единых во всем приложении

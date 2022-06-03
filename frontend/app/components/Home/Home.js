@@ -31,6 +31,8 @@ const mockData = [
     },
 ];
 
+const apiRouteLeagues = 'https://api.football-data.org/v4/competitions';
+
 export default function Home({ navigation }) {
     const [data, setData] = useState(mockData);
     const numColumns = 2;
@@ -56,23 +58,31 @@ export default function Home({ navigation }) {
                 console.warn(error);
             }
         };
-        // fetchData();
-        // fetch('https://datahub.io/sports-data/english-premier-league/datapackage.json', {
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        // }).then(data => data.json()
-        // .then(json => setData(json))
-        // ).catch(e => {
-        //     console.warn(e);
-        // });
-    }, []);
+
+        const fetchData1 = () => {
+            fetch(apiRouteLeagues, {
+                method: "GET",
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                // console.log('Then Data: ', json);
+                // записать в БД
+            }).catch(error => {
+                // console.log('Catch Error: ', error);
+            });
+        }
+
+        fetchData1();
+    }, [apiRouteLeagues]);
 
     return (
         <View style={styles.wrapper}>
             {data.length === 0 ? (
-                <Text>Mock</Text>
+                <Text>Mock Loading</Text>
             ) : (
                 <FlatList
                     style={styles.container}
@@ -87,7 +97,8 @@ export default function Home({ navigation }) {
                         <TouchableHighlight
                             onPress={() => {
                                 navigation.navigate('Details', {
-                                    itemName: item.name,
+                                    screen: 'Details',
+                                    params: { itemName: item.name }
                                 })}
                             }
                         >
