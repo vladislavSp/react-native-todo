@@ -71,7 +71,6 @@ export default function App() {
                         ),
                     }}
                 />
-                {/* <Tab.Screen name="Settings" component={Settings}/> */}
                 <Tab.Screen
                     name="Settings"
                     component={SettingsScreen}

@@ -9,6 +9,8 @@ import BundesIcon from '../../../assets/images/icons/bundes.svg';
 import image1 from '../../../assets/images/leagues/image1.jpg';
 import image2 from '../../../assets/images/leagues/image2.jpg';
 import image3 from '../../../assets/images/leagues/image3.jpg';
+import MainBg from '../MainBg/MainBg';
+import Padding from '../Padding/Padding';
 
 const mockData = [
     {
@@ -87,46 +89,48 @@ export default function Home({ navigation }) {
     }, [apiRouteLeagues]);
 
     return (
-        <View style={styles.wrapper}>
-            {data.length === 0 ? (
-                <Text>Mock Loading</Text>
-            ) : (
-                <FlatList
-                    style={styles.container}
-                    initialNumToRender={initialNumToRender}
-                    contentContainerStyle={{ paddingBottom: 20 }}
-                    columnWrapperStyle={{ justifyContent: 'space-between' }}
-                    keyExtractor={(item => item.id)}
-                    data={data}
-                    pagingEnabled={true}
-                    numColumns={numColumns}
-                    renderItem={({ item }) => (
-                        <TouchableHighlight
-                            onPress={() => {
-                                navigation.navigate(
-                                    'Details', { itemName: item.name }
-                                )}
-                            }
-                        >
-                            <ImageBackground
-                                source={item.image}
-                                resizeMode="cover"
-                                style={styles.slide}
+        <MainBg>
+            <Padding>
+                {data.length === 0 ? (
+                    <Text>Mock Loading</Text>
+                ) : (
+                    <FlatList
+                        style={styles.list}
+                        initialNumToRender={initialNumToRender}
+                        contentContainerStyle={{ paddingBottom: 20 }}
+                        columnWrapperStyle={{ justifyContent: 'space-between' }}
+                        keyExtractor={(item => item.id)}
+                        data={data}
+                        pagingEnabled={true}
+                        numColumns={numColumns}
+                        renderItem={({ item }) => (
+                            <TouchableHighlight
+                                onPress={() => {
+                                    navigation.navigate(
+                                        'Details', { itemName: item.name }
+                                    )}
+                                }
                             >
-                                <LinearGradient
-                                    key={item.id}
-                                    colors={[item.gradient.bg1, item.gradient.bg2]}
-                                    style={styles.gradient}
-                                />
-                                <View style={styles.textWrap}>
-                                    <item.icon width={30} height={30} />
-                                    <Text style={styles.text}>{item.name}</Text>
-                                </View>
-                            </ImageBackground>
-                        </TouchableHighlight>
-                    )}
-                />
-            )}
-        </View>
+                                <ImageBackground
+                                    source={item.image}
+                                    resizeMode="cover"
+                                    style={styles.slide}
+                                >
+                                    <LinearGradient
+                                        key={item.id}
+                                        colors={[item.gradient.bg1, item.gradient.bg2]}
+                                        style={styles.gradient}
+                                    />
+                                    <View style={styles.textWrap}>
+                                        <item.icon width={30} height={30} />
+                                        <Text style={styles.text}>{item.name}</Text>
+                                    </View>
+                                </ImageBackground>
+                            </TouchableHighlight>
+                        )}
+                    />
+                )}
+            </Padding>
+        </MainBg>
     )
 }
