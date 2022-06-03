@@ -10,6 +10,7 @@ const Padding = ({ children }) => (
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingVertical: 38,
         paddingHorizontal: 25,
     },
 });

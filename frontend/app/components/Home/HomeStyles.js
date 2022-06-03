@@ -1,9 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-    list: {
-        paddingTop: 38,
-    },
     slide: {
         overflow: 'hidden',
         borderRadius: 15,

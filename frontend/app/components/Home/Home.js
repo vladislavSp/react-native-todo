@@ -95,7 +95,6 @@ export default function Home({ navigation }) {
                     <Text>Mock Loading</Text>
                 ) : (
                     <FlatList
-                        style={styles.list}
                         initialNumToRender={initialNumToRender}
                         contentContainerStyle={{ paddingBottom: 20 }}
                         columnWrapperStyle={{ justifyContent: 'space-between' }}
@@ -105,19 +104,17 @@ export default function Home({ navigation }) {
                         numColumns={numColumns}
                         renderItem={({ item }) => (
                             <TouchableHighlight
+                                key={item.id}
                                 onPress={() => {
                                     navigation.navigate(
                                         'Details', { itemName: item.name }
                                     )}
                                 }
                             >
-                                <ImageBackground
-                                    source={item.image}
-                                    resizeMode="cover"
+                                <ImageBackground source={item.image} resizeMode="cover"
                                     style={styles.slide}
                                 >
-                                    <LinearGradient
-                                        key={item.id}
+                                    <LinearGradient 
                                         colors={[item.gradient.bg1, item.gradient.bg2]}
                                         style={styles.gradient}
                                     />

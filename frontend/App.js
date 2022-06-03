@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import NotesScreen from './app/components/Notes/Notes';
 import SettingsScreen from './app/screens/SettingsScreen/SettingsScreen';
 import HomeNavigation from './app/navigation/HomeNavigation';
 import * as SplashScreen from 'expo-splash-screen';
