@@ -18,7 +18,7 @@ const HomeNavigation = ({ route, navigation }) => {
             <Stack.Screen
                 name="Details"
                 component={Details}
-                initialParams={{ itemName: 'Premier League' }}
+                // initialParams={{ itemName: 'Premier League' }}
             />
         </Stack.Navigator>
     );

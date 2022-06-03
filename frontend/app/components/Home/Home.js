@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, TouchableHighlight } from 'react-native';
+import { View, FlatList, Text, TouchableHighlight, ImageBackground } from 'react-native';
 import { apiRoute } from '../../../api/constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styles } from './HomeStyles';
 import LionSvg from '../../../assets/images/icons/lion.svg';
-import LaLiga from '../../../assets/images/icons/laliga.svg';
+import LaLigaIcon from '../../../assets/images/icons/laliga.svg';
+import BundesIcon from '../../../assets/images/icons/bundes.svg';
+import image1 from '../../../assets/images/leagues/image1.jpg';
+import image2 from '../../../assets/images/leagues/image2.jpg';
+import image3 from '../../../assets/images/leagues/image3.jpg';
 
 const mockData = [
     {
@@ -14,20 +18,23 @@ const mockData = [
             bg2: '#7000FF',
         },
         icon: LionSvg,
+        image: image1,
     }, {
         name: 'LaLiga',
         gradient: {
             bg1: '#FE0000',
             bg2: '#FE7B01',
         },
-        icon: LaLiga,
+        icon: LaLigaIcon,
+        image: image2,
     }, {
         name: 'Bundesliga',
         gradient: {
             bg1: '#FFB627',
             bg2: '#FF8413',
         },
-        icon: LaLiga,
+        icon: BundesIcon,
+        image: image3,
     },
 ];
 
@@ -96,22 +103,26 @@ export default function Home({ navigation }) {
                     renderItem={({ item }) => (
                         <TouchableHighlight
                             onPress={() => {
-                                navigation.navigate('Details', {
-                                    screen: 'Details',
-                                    params: { itemName: item.name }
-                                })}
+                                navigation.navigate(
+                                    'Details', { itemName: item.name }
+                                )}
                             }
                         >
-                            <LinearGradient
-                                key={item.id}
-                                colors={[item.gradient.bg1, item.gradient.bg2]}
+                            <ImageBackground
+                                source={item.image}
+                                resizeMode="cover"
                                 style={styles.slide}
                             >
+                                <LinearGradient
+                                    key={item.id}
+                                    colors={[item.gradient.bg1, item.gradient.bg2]}
+                                    style={styles.gradient}
+                                />
                                 <View style={styles.textWrap}>
                                     <item.icon width={30} height={30} />
                                     <Text style={styles.text}>{item.name}</Text>
                                 </View>
-                            </LinearGradient>
+                            </ImageBackground>
                         </TouchableHighlight>
                     )}
                 />
