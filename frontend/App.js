@@ -57,7 +57,7 @@ export default function App() {
                     headerStyle: styles.header,
                     headerTitleStyle: styles.headerText,
                     headerStatusBarHeight: 65,
-                    headerShadowVisible: false, // убираем бордер на нижней границе header
+                    headerShadowVisible: false, // убирает бордер на нижней границе header
                 }}
             >
                 <Tab.Screen

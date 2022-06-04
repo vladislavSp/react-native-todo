@@ -3,15 +3,16 @@ import { View, FlatList, Text, TouchableHighlight, ImageBackground } from 'react
 import { apiRoute } from '../../../api/constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styles } from './HomeStyles';
+import MainBg from '../MainBg/MainBg';
+import Padding from '../Padding/Padding';
 import LionSvg from '../../../assets/images/icons/lion.svg';
 import LaLigaIcon from '../../../assets/images/icons/laliga.svg';
 import BundesIcon from '../../../assets/images/icons/bundes.svg';
 import image1 from '../../../assets/images/leagues/image1.jpg';
 import image2 from '../../../assets/images/leagues/image2.jpg';
 import image3 from '../../../assets/images/leagues/image3.jpg';
-import MainBg from '../MainBg/MainBg';
-import Padding from '../Padding/Padding';
 
+const apiRouteLeagues = 'https://api.football-data.org/v4/competitions';
 const mockData = [
     {
         name: 'Premiere League',
@@ -40,7 +41,6 @@ const mockData = [
     },
 ];
 
-const apiRouteLeagues = 'https://api.football-data.org/v4/competitions';
 
 export default function Home({ navigation }) {
     const [data, setData] = useState(mockData);
@@ -50,25 +50,7 @@ export default function Home({ navigation }) {
     useEffect(() => setData(mockData), []); // update
 
     useEffect(() => { // Запрос лиг
-        const fetchData = async () => {
-            try { // leagues?id=39
-                const url = `${apiRoute}/leagues`;
-                const data = await fetch(url, {
-                    "Content-Type": "application/json",
-                    method: "GET",
-                    headers: {
-                        "x-rapidapi-host": "v3.football.api-sports.io",
-                        "x-apisports-key": "f3660b0dcfbdfce3bfc8676f3ddc4ee3"
-                    }
-                });
-                const { response } = await data.json();
-                setData(response);
-            } catch (error) {
-                console.warn(error);
-            }
-        };
-
-        const fetchData1 = () => {
+        const fetchData = () => {
             fetch(apiRouteLeagues, {
                 method: "GET",
                 headers: {
@@ -85,7 +67,7 @@ export default function Home({ navigation }) {
             });
         }
 
-        fetchData1();
+        fetchData();
     }, [apiRouteLeagues]);
 
     return (
