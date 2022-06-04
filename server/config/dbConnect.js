@@ -1,3 +1,4 @@
+// подключение к БД / password MongoDB: mlSt9nolfJa3Js0I
 const mongoose = require('mongoose');
 
 const connectDB = async () => {

@@ -6,7 +6,7 @@ import HomeNavigation from './app/navigation/HomeNavigation';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import useStateCallback from "./app/hooks/useStateCallback";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './app/AppStyles.js';
 
 const Tab = createBottomTabNavigator();
@@ -66,7 +66,7 @@ export default function App() {
                     options={{
                         tabBarLabel: 'Home',
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="home" color={color} size={size} />
+                            <MaterialIcons name="home" color={color} size={size} />
                         ),
                     }}
                 />
@@ -76,7 +76,7 @@ export default function App() {
                     options={{
                         tabBarLabel: 'Settings',
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="application-settings" color={color} size={size} />
+                            <MaterialIcons name="settings" color={color} size={size} />
                         ),
                     }}
                 />

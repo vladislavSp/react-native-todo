@@ -10,11 +10,12 @@ const credentials = require('./middleware/credentials');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConnect');
-const fetchData = require('./axios/axios');
+const requestDownload = require('./axios/axios');
 const PORT = process.env.PORT || 3500;
 
 // Connect to MongoDB
 connectDB();
+// requestDownload();
 
 // custom middleware logger
 app.use(logger);
@@ -61,8 +62,6 @@ app.all('*', (req, res) => {
 });
 
 app.use(errorHandler);
-
-// fetchData();
 
 // listener mongodb
 mongoose.connection.once('open', () => {
