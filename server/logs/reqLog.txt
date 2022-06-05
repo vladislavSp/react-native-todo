@@ -110,3 +110,5 @@
 20220604	17:21:08	f089967e-f804-402a-ba9e-14014b1861ed	GET	undefined	/register
 20220604	17:21:08	ebbf22a5-e801-472b-b0e3-a3d773288efb	GET	undefined	/img/404.png
 20220604	17:33:14	aca25cda-6359-4a45-bc38-75bca520823d	GET	undefined	/
+20220605	11:41:52	d82d027e-d865-43f8-b465-8963d18ac90f	GET	undefined	/
+20220605	11:41:52	02cbad90-38df-464b-a093-0feade183b3c	GET	undefined	/favicon.ico

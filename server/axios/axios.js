@@ -1,82 +1,48 @@
-// const axios = require('axios');
-// const apiRouteLeagues = 'https://api.football-data.org/v4/competitions/PL';
+const axios = require('axios');
+const Leagues = require('../model/Leagues');
 const API_ROUTE = 'v3.football.api-sports.io';
 const API_KEY = '3e0607f5006ef6cb6a14b11c84554d48'; // API KEY
+const LEAGUES_ID = [39];
+// const apiRouteLeagues = 'https://api.football-data.org/v4/competitions/PL';
+// 61 - Liga 1, 135 - Seria A, 39 -Premier League, 78 - Bundesliga
+// 88 - Eredivisie, 94 - Primeira Liga(Portugal), 140 - La Liga
+// 4 - Euro, 1 - World Cup
 
-const request = require('request');
-
-// const instance = axios.create();
-
-// const fetchData = () => {
-//     instance.get(apiRouteLeagues, {
-//         params: { token: '78d0e4f29d8c4257ad382664a0d2bc43'}
-//     })
-//     .then(({ data }) => {
-//         console.log('Then Data: ', data);
-//         // to DB
-//     })
-//     .catch(error => {
-//         console.log('Catch Error: ', error.response.data);
-//     });
-// }
-
-// const axiosDownload = () => {
-//     const options = {
-//         method: 'GET',
-//         url: 'https://api-football-v1.p.rapidapi.com/v3/timezone',
-//         headers: {
-//             'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com',
-//             'X-RapidAPI-Key': 'dcaa7bce78mshfc45d3a0304429bp11c128jsnf64e862f1308'
-//         }
-//     };
-
-//     axios.request(options)
-//     .then(function (res) {
-//         console.log(res);
-//     }).catch(function (error) {
-//         console.error(error);
-//     });
-// }
-
-const fc = () => {
+const downloadData = () => {
     const options = {
-        method: 'GET',
-        url: `${API_ROUTE}/leagues`,
+        method: 'get',
+        url: `https://v3.football.api-sports.io/leagues?id=${LEAGUES_ID[0]}`,
         headers: {
-            'x-rapidapi-host': API_ROUTE,
-            'x-rapidapi-key': API_KEY
+            'x-rapidapi-key': API_KEY,
+            'x-rapidapi-host': API_ROUTE
         }
     };
 
-    request(options, function (error, response, body) {
-        if (error) throw new Error(error);
+    axios.request(options)
+    .then(async function (res) {
+        const { data } = res;
+        const duplicate = await Leagues.findOne({ 'league.id': data.response[0].league.id }).exec();
 
-        const json = JSON.parse(body);
-        console.log(json.response, response);
+        if (duplicate) {
+            console.log('Duplicate id!');
+            return;
+        }
+
+        const { league, country, seasons } = res.data.response[0];
+
+        try { // создание одной лиги в БД
+            await Leagues.create({
+                league,
+                country,
+                seasons,
+            });
+        } catch (error) {
+            console.log(error)
+        }
+
+    }).catch(function (error) {
+        console.error(error);
     });
-}
-module.exports = fc;
+};
 
-// {
-//     "area": {
-//         "code": "AFR",
-//         "flag": null,
-//         "id": 2001,
-//         "name": "Africa"
-//     },
-//     "code": "QCAF",
-//     "currentSeason": {
-//         "id": 555,
-//         "currentMatchday": 6,
-//         "startDate": "2019-09-04",
-//         "endDate": "2021-11-16",
-//         "winner": null
-//     },
-//     "emblem": null,
-//     "id": 2006,
-//     "lastUpdated": "2022-03-13T18:51:44Z",
-//     "name": "WC Qualification CAF",
-//     "numberOfAvailableSeasons": 2,
-//     "plan": "TIER_FOUR",
-//     "type": "CUP"
-// }
+module.exports = downloadData;

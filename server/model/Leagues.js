@@ -25,16 +25,25 @@ const seasonSchema = new Schema({
 });
 
 const leaguesSchema = new Schema({
-    country: {
-        code: {},
-        flag: {},
-        name: String,
-    },
     league: {
-        id: Number,
-        logo: String,
+        id: {
+            type: Number,
+            required: true,
+        },
         name: String,
-        type: String,
+        type: { type: String }, // for type
+        logo: String,
+    },
+    country: {
+        name: String,
+        code: {
+            type: String,
+            default: null,
+        },
+        flag: {
+            type: String,
+            default: null,
+        },
     },
     seasons: [seasonSchema],
 });
