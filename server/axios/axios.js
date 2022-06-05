@@ -9,16 +9,16 @@ const LEAGUES_ID = [39];
 // 4 - Euro, 1 - World Cup
 
 const downloadData = () => {
-    const options = {
+    const options = (route) => ({
         method: 'get',
-        url: `https://v3.football.api-sports.io/leagues?id=${LEAGUES_ID[0]}`,
+        url: `https://v3.football.api-sports.io/${route}`,
         headers: {
             'x-rapidapi-key': API_KEY,
             'x-rapidapi-host': API_ROUTE
         }
-    };
+    });
 
-    axios.request(options)
+    axios.request(options(`leagues?id=${LEAGUES_ID[0]}`))
     .then(async function (res) {
         const { data } = res;
         const duplicate = await Leagues.findOne({ 'league.id': data.response[0].league.id }).exec();
@@ -43,6 +43,12 @@ const downloadData = () => {
     }).catch(function (error) {
         console.error(error);
     });
+
+    // axios.request(optionsTeam)
+    // .then()
+    // .catch(err => {
+    //     console.error(err);
+    // })
 };
 
 module.exports = downloadData;
