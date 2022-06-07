@@ -12,7 +12,6 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/dbConnect');
 const downloadData = require('./axios/axios');
 const PORT = process.env.PORT || 3500;
-const Leagues = require('./model/Leagues');
 
 // Connect to MongoDB
 connectDB();
@@ -46,6 +45,7 @@ app.use('/refresh', require('./routes/refresh')); // connect r for the refresh t
 app.use('/logout', require('./routes/logout')); // connect r for the logout
 
 app.use('/leagues', require('./routes/api/league')); // connect routes for the api
+app.use('/teams', require('./routes/api/teams')); // connect r for the teams by season
 
 // redirect unregistered routes and check file-types
 app.all('*', (req, res) => {
@@ -66,6 +66,6 @@ app.use(errorHandler);
 // listener mongodb
 mongoose.connection.once('open', () => {
     console.log('Connect to MongoDB...');
-    downloadData();
+    // downloadData();
     app.listen(PORT, () => console.log(`Server running on port:${PORT} - http://localhost:${PORT}`));
 });

@@ -1,11 +1,10 @@
 // Controller from MVC model - leagues
-const data = {
-    leagues: require('../model/leagues.json'),
-    setLeagues: function (data) { this.leagues = data },
-};
+const Leagues = require('../model/Leagues');
 
-const getAllLeagues = (req, res) => {
-    res.json(data.leagues);
+const getAllLeagues = async (req, res) => {
+    const leagues = await Leagues.find();
+    if (!leagues) return res.status(404).json({ 'message': 'Leagues not found!' });
+    res.json(leagues);
 };
 
 const createNewLeague = (req, res) => {
@@ -47,13 +46,12 @@ const deleteLeague = (req, res) => {
     res.json(data.leagues);
 };
 
-const getLeague = (req, res) => {
-    const league = data.leagues.find(league => league.id === parseInt(req.params.id));
-
-    if (!league) {
-        res.status(404).json({ "message": `League ID ${req.params.id} not found`});
+const getLeague = async (req, res) => {
+    if(!req?.params?.id) {
+        res.status(404).json({ 'message': `League ID params required!` });
     }
 
+    const league = await Leagues.findOne({ 'league.id': req.params.id });
     res.json(league);
 };
 

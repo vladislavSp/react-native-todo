@@ -1,9 +1,10 @@
-// 
 const express = require('express');
 const router = express.Router();
 const {
     getAllLeagues,
-    createNewLeague, updateLeague, deleteLeague,
+    createNewLeague,
+    updateLeague,
+    deleteLeague,
     getLeague,
 } = require('../../controllers/leagueController');
 // const verifyJWT = require('../../middleware/verifyJWT');
