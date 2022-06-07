@@ -19,10 +19,11 @@ export default function App() {
             try {
                 await SplashScreen.preventAutoHideAsync();
                 await Font.loadAsync({
-                    'OpenSans-Bold': require('./assets/fonts/OpenSans-Bold.ttf'),
-                    'OpenSans-Regular': require('./assets/fonts/OpenSans-Regular.ttf'),
-                    'OpenSans-SemiBold': require('./assets/fonts/OpenSans-SemiBold.ttf'),
-                    'PilatExtended-Heavy': require('./assets/fonts/PilatExtended-Heavy.ttf'),
+                    'RoadRadio': require('./assets/fonts/RoadRadio.ttf'),
+                    'RoadRadioBlack': require('./assets/fonts/RoadRadio-Black.ttf'),
+                    'RoadRadioBold': require('./assets/fonts/RoadRadio-Bold.ttf'),
+                    'RoadRadioThin': require('./assets/fonts/RoadRadio-Thin.ttf'),
+
                 });
             } catch (e) {
                 console.warn(e);
@@ -56,12 +57,12 @@ export default function App() {
                     tabBarStyle: styles.tabBar,
                     headerStyle: styles.header,
                     headerTitleStyle: styles.headerText,
-                    headerStatusBarHeight: 65,
+                    headerStatusBarHeight: 70,
                     headerShadowVisible: false, // убирает бордер на нижней границе header
                 }}
             >
                 <Tab.Screen
-                    name="Sport time"
+                    name="Football time"
                     component={HomeNavigation}
                     options={{
                         tabBarLabel: 'Home',
@@ -80,16 +81,6 @@ export default function App() {
                         ),
                     }}
                 />
-                {/* <Tab.Screen
-                    name="Notes"
-                    component={NotesScreen}
-                    options={{
-                        tabBarLabel: 'Settings',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="account-settings" color={color} size={size} />
-                        ),
-                    }}
-                /> */}
             </Tab.Navigator>
         </NavigationContainer>
   );

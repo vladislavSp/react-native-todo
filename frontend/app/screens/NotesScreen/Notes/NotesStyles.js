@@ -23,6 +23,5 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 32,
         fontSize: 22,
         textAlign: 'center',
-        fontFamily: 'OpenSans-Bold',
     },
 });

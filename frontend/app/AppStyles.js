@@ -10,9 +10,9 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
         textTransform: 'uppercase',
         color: '#fff',
-        fontSize: 24,
+        fontSize: 34,
         fontWeight: '700',
-        fontFamily: 'PilatExtended-Heavy',
+        fontFamily: 'RoadRadioBlack',
     },
     tabBar: {
         backgroundColor: '#282A31',

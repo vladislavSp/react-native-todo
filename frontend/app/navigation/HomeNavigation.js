@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 
 const HomeNavigation = ({ route, navigation }) => {
     useLayoutEffect(() => {
-        navigation.setOptions({ headerTitle: getHeaderTitle(route, navigation, 'Sport time') });
+        navigation.setOptions({ headerTitle: getHeaderTitle(route, navigation, 'Football time') });
     }, [navigation, route]);
 
     return (
@@ -17,7 +17,6 @@ const HomeNavigation = ({ route, navigation }) => {
             <Stack.Screen
                 name="Details"
                 component={Details}
-                // initialParams={{ itemName: 'Premier League' }}
             />
         </Stack.Navigator>
     );

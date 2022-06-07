@@ -1,5 +1,5 @@
 export const apiRoute = 'https://v3.football.api-sports.io';
-export const API_ADDRESS = 'http://192.168.0.167:3500';
+export const API_URL = 'http://192.168.0.167:3500';
 
 export const idLeagues = [{
     id: 39,
