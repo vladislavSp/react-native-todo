@@ -1,6 +1,6 @@
 const axios = require('axios');
 const Leagues = require('../model/Leagues');
-const Teams = require('../model/Teams');
+const SeasonTeams = require('../model/SeasonTeams');
 const API_ROUTE = 'v3.football.api-sports.io';
 const API_KEY = '3e0607f5006ef6cb6a14b11c84554d48'; // API KEY
 const LEAGUES_ID = [39];
@@ -23,7 +23,7 @@ const downloadTeams = (leagueId = 39, season = 2021) => {
     .then(async(res) => {
         const { data: { response } } = res;
 
-        const duplicate = await Teams.findOne({ leagueId: leagueId, season: season }).exec();
+        const duplicate = await SeasonTeams.findOne({ leagueId: leagueId, season: season }).exec();
 
         if (duplicate) {
             console.log('Duplicate team!');
@@ -31,7 +31,7 @@ const downloadTeams = (leagueId = 39, season = 2021) => {
         }
 
         try {
-            await Teams.create({
+            await SeasonTeams.create({
                 leagueId,
                 season: season,
                 teams: response,

@@ -22,10 +22,10 @@ const teamSchema = new Schema({
     },
 });
 
-const teamsSchema = new Schema({
+const seasonTeamsSchema = new Schema({
     leagueId: Number,
     season: Number,
     teams: [teamSchema],
 });
 
-module.exports = mongoose.model('Teams', teamsSchema);
+module.exports = mongoose.model('SeasonTeams', seasonTeamsSchema);
