@@ -1,5 +1,6 @@
 const axios = require('axios');
 const Leagues = require('../model/Leagues');
+const Teams = require('../model/Teams');
 const API_ROUTE = 'v3.football.api-sports.io';
 const API_KEY = '3e0607f5006ef6cb6a14b11c84554d48'; // API KEY
 const LEAGUES_ID = [39];
@@ -8,21 +9,50 @@ const LEAGUES_ID = [39];
 // 88 - Eredivisie, 94 - Primeira Liga(Portugal), 140 - La Liga
 // 4 - Euro, 1 - World Cup
 
-const downloadData = () => {
-    const options = (route) => ({
-        method: 'get',
-        url: `https://v3.football.api-sports.io/${route}`,
-        headers: {
-            'x-rapidapi-key': API_KEY,
-            'x-rapidapi-host': API_ROUTE
+const axiosOptions = (route) => ({
+    method: 'get',
+    url: `https://v3.football.api-sports.io/${route}`,
+    headers: {
+        'x-rapidapi-key': API_KEY,
+        'x-rapidapi-host': API_ROUTE
+    }
+});
+
+const downloadTeams = (leagueId = 39, season = 2021) => {
+    axios.request(axiosOptions(`teams?league=${leagueId}&season=${season}`))
+    .then(async(res) => {
+        const { data: { response } } = res;
+
+        const duplicate = await Teams.findOne({ leagueId: leagueId, season: season }).exec();
+
+        if (duplicate) {
+            console.log('Duplicate team!');
+            return;
         }
+
+        try {
+            await Teams.create({
+                leagueId,
+                season: season,
+                teams: response,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+
+    })
+    .catch(err => {
+        console.log(err);
     });
+}
 
-    axios.request(options(`leagues?id=${LEAGUES_ID[0]}`))
+const downloadData = () => {
+    axios.request(axiosOptions(`leagues?id=${LEAGUES_ID[0]}`))
     .then(async function (res) {
-        const { data } = res;
-        const duplicate = await Leagues.findOne({ 'league.id': data.response[0].league.id }).exec();
+        const { data: { response } } = res;
+        const duplicate = await Leagues.findOne({ 'league.id': response[0].league.id }).exec();
 
+        downloadTeams();
         if (duplicate) {
             console.log('Duplicate id!');
             return;
@@ -43,12 +73,6 @@ const downloadData = () => {
     }).catch(function (error) {
         console.error(error);
     });
-
-    // axios.request(optionsTeam)
-    // .then()
-    // .catch(err => {
-    //     console.error(err);
-    // })
 };
 
 module.exports = downloadData;

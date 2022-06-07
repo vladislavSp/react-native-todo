@@ -12,10 +12,10 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/dbConnect');
 const downloadData = require('./axios/axios');
 const PORT = process.env.PORT || 3500;
+const Leagues = require('./model/Leagues');
 
 // Connect to MongoDB
 connectDB();
-// downloadData();
 
 // custom middleware logger
 app.use(logger);
@@ -66,5 +66,6 @@ app.use(errorHandler);
 // listener mongodb
 mongoose.connection.once('open', () => {
     console.log('Connect to MongoDB...');
+    downloadData();
     app.listen(PORT, () => console.log(`Server running on port:${PORT} - http://localhost:${PORT}`));
 });
