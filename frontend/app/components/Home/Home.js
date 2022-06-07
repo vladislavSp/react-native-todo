@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text, TouchableHighlight, ImageBackground } from 'react-native';
-import { apiRoute } from '../../../api/constants';
+import apiMethods from '../../../api/methods';
+import { API_ADDRESS } from '../../../api/constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styles } from './HomeStyles';
 import MainBg from '../MainBg/MainBg';
@@ -12,103 +13,115 @@ import image1 from '../../../assets/images/leagues/image1.jpg';
 import image2 from '../../../assets/images/leagues/image2.jpg';
 import image3 from '../../../assets/images/leagues/image3.jpg';
 
-const apiRouteLeagues = 'https://api.football-data.org/v4/competitions';
 const mockData = [
     {
         name: 'Premiere League',
-        gradient: {
-            bg1: '#A32FFF',
-            bg2: '#7000FF',
-        },
         icon: LionSvg,
         image: image1,
     }, {
         name: 'LaLiga',
-        gradient: {
-            bg1: '#FE0000',
-            bg2: '#FE7B01',
-        },
         icon: LaLigaIcon,
         image: image2,
     }, {
         name: 'Bundesliga',
-        gradient: {
-            bg1: '#FFB627',
-            bg2: '#FF8413',
-        },
         icon: BundesIcon,
         image: image3,
     },
 ];
 
+const gradientsMain = [
+    {
+        bg1: '#A32FFF',
+        bg2: '#7000FF',
+    }, {
+        bg1: '#FE0000',
+        bg2: '#FE7B01',
+    }, {
+        bg1: '#FFB627',
+        bg2: '#FF8413',
+    }
+];
+
+const setGradients = (index = 0, gradients = gradientsMain) => {
+    console.log(index);
+
+    let i = index;
+    const gradientLength = gradients.length;
+    const n = Math.floor(index / gradientLength);
+
+    if (index >= gradientLength) {
+        i = index - (gradientLength * n);
+        return gradients[i];
+    }
+
+    return [gradients[i].bg1, gradients[i].bg2];
+};
+
 
 export default function Home({ navigation }) {
-    const [data, setData] = useState(mockData);
+    const [leagues, setLeagues] = useState([]);
     const numColumns = 2;
     const initialNumToRender = 8;
 
-    useEffect(() => setData(mockData), []); // update
-
     useEffect(() => { // Запрос лиг
-        const fetchData = () => {
-            fetch(apiRouteLeagues, {
-                method: "GET",
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-            })
-            .then((response) => response.json())
-            .then((json) => {
-                // console.log('Then Data: ', json);
-                // записать в БД
-            }).catch(error => {
-                // console.log('Catch Error: ', error);
-            });
-        }
+        if (!leagues.length) {
+            const fetchData = () => {
+                fetch(`${API_ADDRESS}${apiMethods.leagues}`, {
+                    method: "GET",
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then((response) => response.json())
+                .then((json) => {
+                    setLeagues(json);
+                    console.log('Then Data: ', json);
+                }).catch(error => {
+                    console.log('Catch Error: ', error);
+                });
+            }
 
-        fetchData();
-    }, [apiRouteLeagues]);
+            fetchData();
+        }
+    }, []);
+
+    if (!leagues?.length) return null;
 
     return (
         <MainBg>
             <Padding>
-                {data.length === 0 ? (
-                    <Text>Mock Loading</Text>
-                ) : (
-                    <FlatList
-                        initialNumToRender={initialNumToRender}
-                        contentContainerStyle={{ paddingBottom: 20 }}
-                        columnWrapperStyle={{ justifyContent: 'space-between' }}
-                        keyExtractor={(item => item.id)}
-                        data={data}
-                        pagingEnabled={true}
-                        numColumns={numColumns}
-                        renderItem={({ item }) => (
-                            <TouchableHighlight
-                                key={item.id}
-                                onPress={() => {
-                                    navigation.navigate(
-                                        'Details', { itemName: item.name }
-                                    )}
-                                }
+                <FlatList
+                    initialNumToRender={initialNumToRender}
+                    contentContainerStyle={{ paddingBottom: 20 }}
+                    columnWrapperStyle={{ justifyContent: 'space-between' }}
+                    keyExtractor={(item => item.league.id)}
+                    data={leagues}
+                    numColumns={numColumns}
+                    renderItem={({ item, index }) => (
+                        <TouchableHighlight
+                            key={item.league.id}
+                            onPress={() => {
+                                navigation.navigate(
+                                    'Details', { itemName: item.league.name }
+                                )}
+                            }
+                        >
+                            <ImageBackground source={image1} resizeMode="cover"
+                                style={styles.slide}
                             >
-                                <ImageBackground source={item.image} resizeMode="cover"
-                                    style={styles.slide}
-                                >
-                                    <LinearGradient 
-                                        colors={[item.gradient.bg1, item.gradient.bg2]}
-                                        style={styles.gradient}
-                                    />
-                                    <View style={styles.textWrap}>
-                                        <item.icon width={30} height={30} />
-                                        <Text style={styles.text}>{item.name}</Text>
-                                    </View>
-                                </ImageBackground>
-                            </TouchableHighlight>
-                        )}
-                    />
-                )}
+                                <LinearGradient 
+                                    colors={setGradients(index)}
+                                    style={styles.gradient}
+                                />
+                                <View style={styles.textWrap}>
+                                    {/* <item.icon width={30} height={30} /> */}
+                                    <Text style={styles.text}>{item.league.name}</Text>
+                                </View>
+                            </ImageBackground>
+                        </TouchableHighlight>
+                    )}
+                />
             </Padding>
         </MainBg>
     )
