@@ -10,7 +10,7 @@ const getHeaderTitle = (route, nav, dft) => {
     const itemName = nav.getState().routes[0]?.state?.routes[index]?.params?.itemName;
 
     switch (routeName) {
-        case 'Details':
+        case 'League':
             return itemName;
         default:
             return dft;

@@ -5,7 +5,7 @@ import {
     Text,
     TouchableHighlight,
     ImageBackground,
-    ActivityIndicator
+    ActivityIndicator,
 } from 'react-native';
 import apiMethods from '../../../api/methods';
 import { apiRoute, AUTH_TOKEN } from '../../../api/constants';
@@ -16,11 +16,23 @@ import request from '../../utils/request';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
 import image1 from '../../../assets/images/leagues/image1.jpg';
-// import LionSvg from '../../../assets/images/icons/lion.svg';
+import LionSvg from '../../../assets/images/icons/lion.svg';
 // import LaLigaIcon from '../../../assets/images/icons/laliga.svg';
 // import BundesIcon from '../../../assets/images/icons/bundes.svg';
 // import image2 from '../../../assets/images/leagues/image2.jpg';
 // import image3 from '../../../assets/images/leagues/image3.jpg';
+
+const Images = {
+    LionSvg,
+}
+
+const Icon = code => {
+    let newCode = code;
+    if (typeof newCode !== 'string') newCode = 'Lion';
+    const Component = Images[`${newCode}Svg`];
+
+    return <Component />;
+}
 
 export default function Home({ navigation }) {
     const [leagues, setLeagues] = useState(null);
@@ -38,8 +50,6 @@ export default function Home({ navigation }) {
                     }
                 });
 
-                // console.log('Status: ', status);
-
                 if (status && (status < 400)) {
                     setLeagues(data);
                 } else {
@@ -50,8 +60,6 @@ export default function Home({ navigation }) {
             fetchData();
         }
     }, []);
-
-    // console.log(leagues);
 
     return (
         <MainBg>
@@ -69,10 +77,9 @@ export default function Home({ navigation }) {
                                 key={item.id}
                                 onPress={() => {
                                     navigation.navigate(
-                                        'Details', {
+                                        'League', {
                                             leagueId: item.code,
                                             itemName: item.name,
-                                            // currentYear: item.seasons.find(el => el.current).year
                                         }
                                     )}
                                 }
@@ -85,8 +92,8 @@ export default function Home({ navigation }) {
                                         style={styles.gradient}
                                     />
                                     <View style={styles.textWrap}>
-                                        {/* <item.icon width={30} height={30} /> */}
-                                        <Text style={styles.text}>{item.name}</Text>
+                                        <Icon code={3} style={styles.image} />
+                                        <Text ellipsizeMode="tail" numberOfLines={2} style={styles.text}>{item.name}</Text>
                                     </View>
                                 </ImageBackground>
                             </TouchableHighlight>

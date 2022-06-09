@@ -3,25 +3,7 @@ export const apiRoute = 'https://api.football-data.org/v4';
 export const API_URL = 'http://192.168.0.167:3500';
 export const AUTH_TOKEN = '78d0e4f29d8c4257ad382664a0d2bc43';
 
-export const idLeagues = [{
-    id: 39,
-    name: 'England',
-}, {
-    id: 61,
-    name: 'France',
-}, {
-    id: 61,
-    name: 'France',
-}, {
-    id: 71,
-    name: 'Brazil',
-}, {
-    id: 78,
-    name: 'Germany',
-}, {
-    id: 135,
-    name: 'Italy',
-}, {
-    id: 88,
-    name: 'Netherlands',
-}];
+export const aliasLeagues = [
+  "BSA", "ELC", "PL", "CL", "EC",
+  "FL1", "BL1", "SA", "DED", "PPL", "CLI", "PD", "WC",
+];

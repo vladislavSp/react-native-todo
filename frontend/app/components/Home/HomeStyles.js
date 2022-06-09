@@ -24,12 +24,16 @@ export const styles = StyleSheet.create({
         marginBottom: 16,
     },
     text: {
+        maxWidth: 105,
         marginLeft: 6,
         color: '#fff',
-        maxWidth: 100,
         fontFamily: 'RoadRadioBlack',
-        fontSize: 15,
+        fontSize: 14,
         textTransform: 'uppercase',
         textAlignVertical: 'bottom',
     },
+    image: {
+        width: 30,
+        height: 30,
+    }
 });

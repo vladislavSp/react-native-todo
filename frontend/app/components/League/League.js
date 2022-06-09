@@ -3,7 +3,6 @@ import { ActivityIndicator, Text, View } from 'react-native';
 import { styles } from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { apiRoute, AUTH_TOKEN } from '../../../api/constants';
-import { API_URL } from '../../../api/constants';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
 import request from '../../utils/request';
@@ -23,7 +22,7 @@ const TABS = [{
 }];
 
 // Страница для динамических данных
-const Details = ({ route }) => {
+const League = ({ route }) => {
     const { leagueId } = route.params;
     const [teams, setTeams] = useState([]);
     const [tabState, setTabState] = useState(0);
@@ -113,4 +112,4 @@ const Details = ({ route }) => {
     )
 };
 
-export default Details;
+export default League;
