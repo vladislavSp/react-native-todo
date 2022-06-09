@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Text, View, Button } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { styles } from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
+import { apiRoute, AUTH_TOKEN } from '../../../api/constants';
 import { API_URL } from '../../../api/constants';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
@@ -22,8 +23,8 @@ const TABS = [{
 }];
 
 // Страница для динамических данных
-const Details = ({ route, navigation }) => {
-    const { leagueId, itemName, currentYear } = route.params;
+const Details = ({ route }) => {
+    const { leagueId } = route.params;
     const [teams, setTeams] = useState([]);
     const [tabState, setTabState] = useState(0);
     const [error, setError] = useState('');
@@ -32,12 +33,15 @@ const Details = ({ route, navigation }) => {
         const fetchTeams = async () => {
             const {
                 data, status, error,
-            } = await request(`${API_URL}${apiMethods.seasonWithTeams(leagueId, currentYear)}`);
+            } = await request(`${apiRoute}${apiMethods.leagueMain(leagueId, 2021)}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Auth-Token': AUTH_TOKEN,
+                    }
+                });
 
-            if (status < 400) setTeams(data.teams);
-            else {
-                setError(error);
-            }
+            if (status < 400) setTeams(data);
+            else setError(error);
         }
 
         fetchTeams();
@@ -61,19 +65,47 @@ const Details = ({ route, navigation }) => {
                 <View style={styles.headerTable}>
                     <Text style={[styles.tableText, styles.tableTextFirst]}>№</Text>
                     <Text style={styles.tableText}>Команда</Text>
+                    <Text style={[styles.tableText, { marginLeft: 'auto' }]}>Игры</Text>
+                    <Text style={[styles.tableText, { marginLeft: 11 }]}>В</Text>
+                    <Text style={[styles.tableText, { marginLeft: 11 }]}>Н</Text>
+                    <Text style={[styles.tableText, { marginLeft: 11 }]}>П</Text>
+                    <Text style={[styles.tableText, { marginLeft: 16 }]}>Очки</Text>
                 </View>
 
-                {!teams.length ? (
+                {!teams?.standings?.length ? (
                     <ActivityIndicator size="large" color="#0000ff" />
                 ) : (
                     <FlatList
                         keyExtractor={(item) => item.team.id}
-                        data={teams}
-                        renderItem={({ item}) => (
-                            <View style={styles.tableRow}>
-                                <Text style={styles.tableRowText}>{item.team.name}</Text>
-                            </View>
-                        )}
+                        data={teams.standings[0].table}
+                        renderItem={({ item }) => {
+                            const { position, team, playedGames, won, draw, lost, points } = item;
+                            return (
+                                <View style={styles.tableRow}>
+                                    <View style={styles.substrate}>
+                                        <Text style={styles.tableRowText}>{position}</Text>
+                                    </View>
+                                    <Text ellipsizeMode="tail" numberOfLines={1} style={[styles.tableRowText, styles.tableRowName]}>
+                                        {team.name}
+                                    </Text>
+                                    <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowGame]}>
+                                        {playedGames}
+                                    </Text>
+                                    <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowWon]}>
+                                        {won}
+                                    </Text>
+                                    <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowDraw]}>
+                                        {draw}
+                                    </Text>
+                                    <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowLost]}>
+                                        {lost}
+                                    </Text>
+                                    <Text style={[styles.tableRowText, styles.tableRowPoints ]}>
+                                        {points}
+                                    </Text>
+                                </View>
+                            )
+                        }}
                     />
                 )}
             </Padding>

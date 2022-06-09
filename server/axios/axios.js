@@ -33,12 +33,11 @@ const downloadTeams = (leagueId = 39, season = 2021) => {
         }
 
         let teams = [];
-
         async function asyncForEach(arr, callback) {
             for (let i = 0; i < arr.length; i++) {
                 await callback(arr[i], i, arr);
             }
-        }
+        };
 
         function fetchStatistics(obj) {
             return new Promise(resolve => {
@@ -54,8 +53,9 @@ const downloadTeams = (leagueId = 39, season = 2021) => {
                     console.log(err);
                 })
             });
-        }
+        };
 
+        // Async forEach
         asyncForEach(response, async (value) => {
             await fetchStatistics(value);
         }).then(async () => {

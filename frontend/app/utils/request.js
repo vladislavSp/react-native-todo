@@ -12,9 +12,9 @@ export const getUrl = (handle, queryParams = {}) => {
     try {
         // const cookies = new Cookies();
         // const token = cookies.get(TOKEN_COOKIE_NAME);
-        const isHandleIncludesHttp = reqHandle.includes('http');
+        // const isHandleIncludesHttp = reqHandle.includes('http');
         const isHandleIncludesParams = reqHandle.includes('?');
-        const apiUrl = isHandleIncludesHttp ? '' : API_URL;
+        // const apiUrl = isHandleIncludesHttp ? '' : API_URL;
         // const deviceModel = `${browserName}-${browserVersion}`;
 
         const apiKey = `${isHandleIncludesParams ? `&` : `?`}`;
@@ -40,7 +40,9 @@ export default function request(url, params = {}) {
     const {
         method = METHODS.GET,
         credentials = 'include',
-        headers = { 'Content-Type': 'application/json' },
+        headers = {
+            'Content-Type': 'application/json'
+        },
         queryParams = {},
         body,
     } = params;
