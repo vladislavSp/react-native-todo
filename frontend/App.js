@@ -8,11 +8,15 @@ import * as Font from 'expo-font';
 import useStateCallback from "./app/hooks/useStateCallback";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from './app/AppStyles.js';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AuthScreen from './app/screens/AuthScreen/AuthScreen';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
     const [fontLoad, setFontLoad] = useStateCallback(false);
+    const [auth, setAuth] = useStateCallback(false);
 
     useEffect(() => {
         async function download() {
@@ -22,6 +26,7 @@ export default function App() {
                     'RoadRadio': require('./assets/fonts/RoadRadio.ttf'),
                     'RoadRadioBlack': require('./assets/fonts/RoadRadio-Black.ttf'),
                     'RoadRadioBold': require('./assets/fonts/RoadRadio-Bold.ttf'),
+                    'RoadRadioLight': require('./assets/fonts/RoadRadio-Light.ttf'),
                     'RoadRadioThin': require('./assets/fonts/RoadRadio-Thin.ttf'),
 
                 });
@@ -51,37 +56,43 @@ export default function App() {
 
     return (
         <NavigationContainer onReady={onLayoutRootView}>
-            <Tab.Navigator
-                screenOptions={{
-                    tabBarActiveTintColor: '#fff',
-                    tabBarStyle: styles.tabBar,
-                    headerStyle: styles.header,
-                    headerTitleStyle: styles.headerText,
-                    headerStatusBarHeight: 70,
-                    headerShadowVisible: false, // убирает бордер на нижней границе header
-                }}
-            >
-                <Tab.Screen
-                    name="Football time"
-                    component={HomeNavigation}
-                    options={{
-                        tabBarLabel: 'Home',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialIcons name="home" color={color} size={size} />
-                        ),
+            {!auth ? (
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="AuthScreen" component={AuthScreen} />
+                </Stack.Navigator>
+            ) : (
+                <Tab.Navigator
+                    screenOptions={{
+                        tabBarActiveTintColor: '#fff',
+                        tabBarStyle: styles.tabBar,
+                        headerStyle: styles.header,
+                        headerTitleStyle: styles.headerText,
+                        headerStatusBarHeight: 70,
+                        headerShadowVisible: false, // убирает бордер на нижней границе header
                     }}
-                />
-                <Tab.Screen
-                    name="Settings"
-                    component={SettingsScreen}
-                    options={{
-                        tabBarLabel: 'Settings',
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialIcons name="settings" color={color} size={size} />
-                        ),
-                    }}
-                />
-            </Tab.Navigator>
+                >
+                    <Tab.Screen
+                        name="Football time"
+                        component={HomeNavigation}
+                        options={{
+                            tabBarLabel: 'Home',
+                            tabBarIcon: ({ color, size }) => (
+                                <MaterialIcons name="home" color={color} size={size} />
+                            ),
+                        }}
+                    />
+                    <Tab.Screen
+                        name="Settings"
+                        component={SettingsScreen}
+                        options={{
+                            tabBarLabel: 'Settings',
+                            tabBarIcon: ({ color, size }) => (
+                                <MaterialIcons name="settings" color={color} size={size} />
+                            ),
+                        }}
+                    />
+                </Tab.Navigator>
+            )}
         </NavigationContainer>
   );
 }
