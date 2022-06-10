@@ -66,6 +66,8 @@ export default function request(url, params = {}) {
         .then(async res => {
             response.status = res?.status;
 
+            console.log(res);
+
             if (res?.status < 400) {
                 response.data = await res.json().catch(() => null);
             } else {

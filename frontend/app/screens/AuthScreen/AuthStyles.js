@@ -78,4 +78,10 @@ export const styles = StyleSheet.create({
         fontFamily: 'RoadRadioLight',
         fontSize: 10,
     },
+    errorText: {
+        color: 'red',
+        position: 'absolute',
+        top: 200,
+        left: 100,
+    }
 });
