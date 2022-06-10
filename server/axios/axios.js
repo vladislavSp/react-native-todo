@@ -35,6 +35,7 @@ const downloadTeams = (leagueId = 39, season = 2021) => {
         let teams = [];
         async function asyncForEach(arr, callback) {
             for (let i = 0; i < arr.length; i++) {
+                console.log('Циклы итерраций скачивания: ', i);
                 await callback(arr[i], i, arr);
             }
         };
@@ -55,8 +56,9 @@ const downloadTeams = (leagueId = 39, season = 2021) => {
             });
         };
 
+        let newResponse = response.slice(8);
         // Async forEach
-        asyncForEach(response, async (value) => {
+        asyncForEach(newResponse, async (value) => {
             await fetchStatistics(value);
         }).then(async () => {
             try {
@@ -104,10 +106,25 @@ const downloadLeagues = (leagueId = LEAGUES_ID[0]) => {
     });
 }
 
+// https://www.football-data.org/documentation/quickstart
+const downloadTest = () => {
+    axios.request({
+        method: 'get',
+        url: `http://api.football-data.org/v4/competitions/PL/matches`,
+        headers: {
+            'X-Auth-Token': '78d0e4f29d8c4257ad382664a0d2bc43',
+        }
+    })
+    .then(({ data, status }) => console.log(status, data));
+};
+
 const downloadData = () => {
     // TODO совместить, чтобы получать информацию синхронно
-    downloadTeams();
-    downloadLeagues();
+    // downloadTeams();
+    // downloadLeagues();
+    // downloadTest();
 };
+
+
 
 module.exports = downloadData;

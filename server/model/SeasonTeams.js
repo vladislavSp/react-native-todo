@@ -97,19 +97,19 @@ const teamSchema = new Schema({
                     away: Number,
                 },
             },
-            clean_sheet: defaultHomeAwaySchema,
-            failed_to_score: defaultHomeAwaySchema,
-            penalty: {
-                scored: minutesSchema,
-                missed: minutesSchema,
-                total: Number,
-            },
-            lineups: [{ formation: String, played: Number }],
-            cards: {
-                yellow: allMinutesSchema,
-                red: allMinutesSchema,
-            },
-        }
+        },
+        'clean_sheet': defaultHomeAwaySchema,
+        'failed_to_score': defaultHomeAwaySchema,
+        penalty: {
+            scored: minutesSchema,
+            missed: minutesSchema,
+            total: Number,
+        },
+        lineups: [{ formation: String, played: Number }],
+        cards: {
+            yellow: allMinutesSchema,
+            red: allMinutesSchema,
+        },
     }
 });
 
