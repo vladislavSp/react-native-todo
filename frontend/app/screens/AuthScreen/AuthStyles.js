@@ -38,6 +38,9 @@ export const styles = StyleSheet.create({
     iconPass: {
         height: 22,
     },
+    iconName: {
+        height: 17,
+    },
     forgotText: {
         width: 270,
         marginTop: 14,
@@ -69,7 +72,7 @@ export const styles = StyleSheet.create({
         right: 22,
     },
     haveAccountText: {
-        marginTop: 10,
+        marginTop: 14,
         marginBottom: 44,
         color: '#fff',
         fontFamily: 'RoadRadioLight',
