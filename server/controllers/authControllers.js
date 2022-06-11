@@ -9,7 +9,7 @@ const handleLogin = async (req, res) => {
     }
 
     const foundUser = await User.findOne({ email }).exec();
-    if (!foundUser) return res.status(404).json({ 'message': 'User not found!'});
+    if (!foundUser) return res.status(404).json({ 'message': 'Пользователь не найден!' });
     // evaluate password
     const match = await bcrypt.compare(password, foundUser.password);
     if (match) {
@@ -39,7 +39,7 @@ const handleLogin = async (req, res) => {
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 *60 * 1000 });
         res.json({ accessToken });
     } else {
-        res.status(401).json({ 'message': 'Password not accept!'});
+        res.status(401).json({ 'message': 'Неправильный пароль!'});
     }
 }
 

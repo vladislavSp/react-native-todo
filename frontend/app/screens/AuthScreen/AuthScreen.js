@@ -68,7 +68,7 @@ const Auth = ({ navigation }) => {
                 <Text style={styles.forgotText}>Забыли пароль?</Text>
             </TouchableOpacity>
 
-            <TouchableHighlight onPress={submitHandler}>
+            <TouchableHighlight onPress={submitHandler} activeOpacity={0.6}>
                 <LinearGradient colors={['#A32FFF', '#7000FF']} style={styles.button}>
                     <Text style={styles.buttonText}>Войти</Text>
                     <Image source={require('../../../assets/images/icons/triangle.png')} style={styles.buttonIcon} />
