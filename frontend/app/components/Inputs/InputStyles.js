@@ -2,6 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     input: {
+        borderWidth: 1,
+        borderColor: 'transparent',
         flexDirection: 'row',
         alignItems: 'center',
         width: 270,
@@ -23,4 +25,8 @@ export const styles = StyleSheet.create({
         marginRight: 11,
         marginLeft: 16,
     },
+    inputError: {
+        borderColor: 'red',
+        borderWidth: 1,
+    }
 });

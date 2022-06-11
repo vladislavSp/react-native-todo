@@ -8,10 +8,11 @@ export const styles = StyleSheet.create({
         backgroundColor: '#000',
     },
     headerText: {
+        marginBottom: 50,
         fontSize: 34,
         fontFamily: 'RoadRadioBlack',
         color: '#fff',
-        marginBottom: 50,
+        textAlign: 'center',
     },
     input: {
         flexDirection: 'row',
@@ -81,7 +82,21 @@ export const styles = StyleSheet.create({
     errorText: {
         color: 'red',
         position: 'absolute',
-        top: 200,
-        left: 100,
-    }
+        top: 150,
+        flex: 1,
+        textAlign: 'center',
+    },
+    completeWrapper: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    completeIcon: {
+        width: 47,
+        height: 47,
+        marginBottom: 23,
+        borderRadius: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

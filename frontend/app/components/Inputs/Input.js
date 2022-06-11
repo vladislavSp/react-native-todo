@@ -8,6 +8,7 @@ export const nameIcon = require('../../../assets/images/icons/name.png');
 export const triangleIcon = require('../../../assets/images/icons/triangle.png');
 
 const Input = ({
+    error,
     inputStyle,
     placeholder = 'Введите текст',
     iconSource = {},
@@ -15,7 +16,7 @@ const Input = ({
     secureTextEntry = false,
     ...rest
 }) => (
-    <View style={[styles.input, inputStyle]}>
+    <View style={[styles.input, inputStyle, error && styles.inputError]}>
         <Image
             source={iconSource}
             style={[styles.icon, iconStyle]}
