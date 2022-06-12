@@ -25,7 +25,16 @@ const handleNewUser = async (req, res) => {
 
         console.log(result);
 
-        res.status(201).json({ 'success': `Пользователь создан успешно!`});
+        const accessToken = getToken('access', result, '15m');
+        const refreshToken = getToken('refresh', result, '1d');
+
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 *60 * 1000 });
+        // Тут нужно не только юзера создавать, но и его авторизовывать! TODO
+        res.status(201).json({
+            accessToken,
+            user: { name: result.username, email: result.email, },
+            'success': `Пользователь создан успешно!`,
+        });
     } catch (error) {
         res.status(500).json({ 'message': error.message });
     }
@@ -35,7 +44,6 @@ const handleNewUser = async (req, res) => {
 // const handleAllUsers = async (req, res) => {
 //     const users = await User.find();
 //     if (!users) return res.status(204).json({ message: 'Users not found!' });
-
 //     res.json(users);
 // }
 

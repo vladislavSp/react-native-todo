@@ -1,6 +1,7 @@
 const User = require('../model/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const getToken = require('../token/token');
 
 const handleLogin = async (req, res) => {
     const { email, password } = req.body;
@@ -13,31 +14,23 @@ const handleLogin = async (req, res) => {
     // evaluate password
     const match = await bcrypt.compare(password, foundUser.password);
     if (match) {
-        const roles = Object.values(foundUser.roles);
         // create JWT
-        const accessToken = jwt.sign(
-            {
-                'UserInfo': {
-                    'username': foundUser.username,
-                    'roles': roles
-                }
-            },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '15m' }
-        );
-        const refreshToken = jwt.sign(
-            { 'username': foundUser.username },
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '1d' }
-        );
+        const accessToken = getToken('access', foundUser, '1h');
+        const refreshToken = getToken('refresh', foundUser, '1d');
 
         // Saving refresh token with current user
-        foundUser.refreshToken = '';
+        foundUser.refreshToken = refreshToken;
         const result = await foundUser.save();
         console.log(result);
 
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 *60 * 1000 });
-        res.json({ accessToken });
+        res.json({
+            accessToken,
+            user: {
+                name: foundUser.username,
+                email: foundUser.email,
+            },
+        });
     } else {
         res.status(401).json({ 'message': 'Неправильный пароль!'});
     }

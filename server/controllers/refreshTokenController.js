@@ -1,5 +1,6 @@
 const User = require('../model/User');
 const jwt = require('jsonwebtoken');
+const getToken = require('../token/token');
 
 const handleRefreshToken = async (req, res) => {
     const cookies = req.cookies;
@@ -16,17 +17,7 @@ const handleRefreshToken = async (req, res) => {
         (err, decoded) => {
             if (err || foundUser.username !== decoded.username) return res.sendStatus(403);
             const roles = Object.values(foundUser.roles);
-            const accessToken = jwt.sign(
-                { 
-                    'UserInfo': {
-                        'username': decoded.username,
-                        'roles': roles,
-
-                    }
-                },
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '15m' }
-            );
+            const accessToken = getToken('access', foundUser, '1h');
             res.json({ accessToken });
         }
     )
