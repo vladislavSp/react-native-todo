@@ -1,9 +1,11 @@
 import { createContext } from 'react';
-// import useStateCallback from '../hooks/useStateCallback';
+import useStateCallback from '../hooks/useStateCallback';
 
 const AppContext = createContext();
 
-export const AppProvider = ({ children, auth, setAuth }) => {
+export const AppProvider = ({ children }) => {
+    const [auth, setAuth] = useStateCallback(false);
+
     return (
         <AppContext.Provider value={[auth, setAuth]}>
             {children}

@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
         color: '#fff',
         fontFamily: 'RoadRadio',
         fontSize: 14,
+        textTransform: 'none',
     },
     icon: {
         position: 'absolute',

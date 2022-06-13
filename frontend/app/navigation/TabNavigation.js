@@ -7,7 +7,7 @@ import styles from '../AppStyles';
 
 const Tab = createBottomTabNavigator();
 
-const MainNavigation = () => (
+const TabNavigation = () => (
     <Tab.Navigator
         screenOptions={{
             tabBarActiveTintColor: '#fff',
@@ -41,4 +41,4 @@ const MainNavigation = () => (
     </Tab.Navigator>
 );
 
-export default MainNavigation;
+export default TabNavigation;

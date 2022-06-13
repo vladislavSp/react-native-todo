@@ -16,7 +16,6 @@ const handleRefreshToken = async (req, res) => {
         process.env.REFRESH_TOKEN_SECRET,
         (err, decoded) => {
             if (err || foundUser.username !== decoded.username) return res.sendStatus(403);
-            const roles = Object.values(foundUser.roles);
             const accessToken = getToken('access', foundUser, '1h');
             res.json({ accessToken });
         }

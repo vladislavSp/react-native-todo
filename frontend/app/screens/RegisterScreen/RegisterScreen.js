@@ -5,6 +5,8 @@ import Input, { nameIcon, mailIcon, passIcon, triangleIcon } from '../../compone
 import { styles } from '../AuthScreen/AuthStyles';
 import request, { METHODS } from '../../utils/request';
 import AppContext from '../../Context/AppContext';
+import * as SecureStore from 'expo-secure-store';
+import { storeData } from '../../utils/storeUtils';
 
 const checkIcon = require('../../../assets/images/icons/completeCheck.png');
 
@@ -39,12 +41,15 @@ const RegisterScreen = ({ navigation }) => {
             const { data, status, error } = response;
 
             if (status < 400) {
+                // показывать успешной рег-ции, next step - change auth on true
+                // + получить объект юзера - вернуть его из бэка и сохранить токен на клиенте
+                await SecureStore.setItemAsync('accessToken', data.accessToken);
+                storeData(data.user, 'user');
+
                 setRegisterComplete(true);
                 setTimeout(() => {
                     setAuth(true);
                 }, 1500);
-                // показывать успешную регистрацию, а потом делать редирект на главную
-                // + получить объект юзера - вернуть его из бэка и сохранить токен на клиенте
             }
 
             if (status >= 400) {
@@ -80,6 +85,7 @@ const RegisterScreen = ({ navigation }) => {
                     value={regState.name}
                     onChange={e => onChangeHandler(e, 'name')}
                     onFocus={() => setError(prev => ({ ...prev, name: '', general: ''}))}
+                    autoCapitalize='none'
                 />
 
                 <Input

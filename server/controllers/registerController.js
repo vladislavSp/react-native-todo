@@ -1,5 +1,6 @@
 const User = require('../model/User');
 const bcrypt = require('bcrypt');
+const getToken = require('../token/token');
 const saltRounds = 10;
 
 const handleNewUser = async (req, res) => {
@@ -23,8 +24,6 @@ const handleNewUser = async (req, res) => {
             'password': hashedPwd
         });
 
-        console.log(result);
-
         const accessToken = getToken('access', result, '15m');
         const refreshToken = getToken('refresh', result, '1d');
 
@@ -33,7 +32,6 @@ const handleNewUser = async (req, res) => {
         res.status(201).json({
             accessToken,
             user: { name: result.username, email: result.email, },
-            'success': `Пользователь создан успешно!`,
         });
     } catch (error) {
         res.status(500).json({ 'message': error.message });
