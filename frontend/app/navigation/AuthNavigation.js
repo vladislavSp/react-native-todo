@@ -6,9 +6,9 @@ import RegisterScreen from '../screens/RegisterScreen/RegisterScreen';
 const Stack = createNativeStackNavigator();
 
 const AuthNavigation = () => (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+    <Stack.Navigator initialRouteName='AuthScreen' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="AuthScreen" component={AuthScreen} />
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
     </Stack.Navigator>
 );
 

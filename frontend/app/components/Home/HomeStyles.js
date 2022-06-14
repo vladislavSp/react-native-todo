@@ -2,19 +2,24 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     slide: {
-        overflow: 'hidden',
-        borderRadius: 15,
         width: 160,
         height: 160,
-        marginBottom: 16,
+        marginBottom: 17,
+        overflow: 'hidden',
+        borderRadius: 15,
     },
     gradient: {
         position: 'absolute',
         top: 0, left: 0,
         width: '100%',
         height: '100%',
-        justifyContent: 'flex-end',
         opacity: 0.8,
+    },
+    background: {
+        position: 'absolute',
+        top: 0, left: 0,
+        width: '100%',
+        height: '100%',
     },
     textWrap: {
         marginTop: 'auto',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+    Image,
     View, FlatList, Text, TouchableHighlight, ImageBackground, ActivityIndicator,
 } from 'react-native';
 import apiMethods from '../../../api/methods';
@@ -11,16 +12,19 @@ import { COLORS } from '../../constants/constants';
 import request from '../../utils/request';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
-import Icons from './Images';
-import image1 from '../../../assets/images/leagues/image1.jpg';
-// import image2 from '../../../assets/images/leagues/image2.jpg';
-// import image3 from '../../../assets/images/leagues/image3.jpg';
+import { Icons, Backgrounds } from './Images';
+
+const getBg = code => {
+    const path = Backgrounds[code]?.uri;
+    if (!path) return Backgrounds.WC.uri;
+    return path;
+}
 
 const Icon = ({ code, style}) => {
     let newCode = code;
     if (
         typeof newCode !== 'string' || !Icons[`${newCode}Icon`]
-    ) newCode = 'Lion';
+    ) newCode = 'PL';
 
     const Component = Icons[`${newCode}Icon`];
     return <Component style={style} />;
@@ -76,18 +80,21 @@ export default function Home({ navigation }) {
                                     )}
                                 }
                             >
-                                <ImageBackground source={image1} resizeMode="cover"
-                                    style={styles.slide}
-                                >
+                                <View style={styles.slide}>
                                     <LinearGradient 
                                         colors={setGradients(index)}
                                         style={styles.gradient}
+                                    />
+                                    <ImageBackground
+                                        source={getBg(item.code)}
+                                        resizeMode="cover"
+                                        style={styles.background}
                                     />
                                     <View style={styles.textWrap}>
                                         <Icon code={item.code} style={styles.image} />
                                         <Text ellipsizeMode="tail" numberOfLines={2} style={styles.text}>{item.name}</Text>
                                     </View>
-                                </ImageBackground>
+                                </View>
                             </TouchableHighlight>
                         )}
                     />

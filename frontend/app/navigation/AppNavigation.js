@@ -9,7 +9,6 @@ import { COLORS } from '../constants/constants';
 const AppNavigation = () => {
     const { authData, isInitialLoading } = useAuth();
 
-    
     if (isInitialLoading) {
         // isInitialLoading - prevent blink with auth screen
         return (

@@ -14,10 +14,7 @@ const HomeNavigation = ({ route, navigation }) => {
     return (
         <Stack.Navigator initialRouteName="HomeStack" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="HomeStack" component={Home} />
-            <Stack.Screen
-                name="League"
-                component={League}
-            />
+            <Stack.Screen  name="League" component={League} />
         </Stack.Navigator>
     );
 };
