@@ -18,6 +18,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#282A31',
         borderTopColor: '#282A31',
     },
+    indicatorScreen: {
+        backgroundColor: '#000',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });
 
 export default styles;

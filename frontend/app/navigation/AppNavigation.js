@@ -1,13 +1,26 @@
-import React, { useContext } from 'react';
-import AppContext from '../Context/AppContext';
+import React from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import styles from '../AppStyles';
+import useAuth from '../hooks/useAuth';
 import AuthNavigation from './AuthNavigation';
 import TabNavigation from './TabNavigation';
+import { COLORS } from '../constants/constants';
 
 const AppNavigation = () => {
-    const [auth] = useContext(AppContext);
+    const { authData, isInitialLoading } = useAuth();
+
+    
+    if (isInitialLoading) {
+        // isInitialLoading - prevent blink with auth screen
+        return (
+            <View style={styles.indicatorScreen}>
+                <ActivityIndicator size="large" color={COLORS.indicator} />
+            </View>
+        );
+    }
 
     return (
-        !auth ? <AuthNavigation /> : <TabNavigation />
+        authData ? <TabNavigation /> : <AuthNavigation />
     )
 };
 

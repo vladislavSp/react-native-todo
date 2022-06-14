@@ -9,6 +9,7 @@ import request from '../../utils/request';
 import apiMethods from '../../../api/methods';
 import setGradients from '../../utils/setGradients';
 import { FlatList } from 'react-native-gesture-handler';
+import { COLORS } from '../../constants/constants';
 
 const TABS = [{
     id: 0,
@@ -72,7 +73,9 @@ const League = ({ route }) => {
                 </View>
 
                 {!teams?.standings?.length ? (
-                    <ActivityIndicator size="large" color="#0000ff" />
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <ActivityIndicator size="large" color={COLORS.indicator} />
+                    </View>
                 ) : (
                     <FlatList
                         keyExtractor={(item) => item.team.id}

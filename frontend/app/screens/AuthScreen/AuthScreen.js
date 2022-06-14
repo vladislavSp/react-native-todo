@@ -1,35 +1,29 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, Image, TouchableOpacity, TouchableHighlight } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { styles } from './AuthStyles';
-import Input, { mailIcon, passIcon } from '../../components/Inputs/Input';
 import request, { METHODS } from '../../utils/request';
+import { LinearGradient } from 'expo-linear-gradient';
+import { ScrollView, Text, Image, TouchableOpacity, TouchableHighlight } from 'react-native';
+import Input, { mailIcon, passIcon } from '../../components/Inputs/Input';
+import { styles } from './AuthStyles';
+import useAuth from '../../hooks/useAuth';
 
 const Auth = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [authState, setAuthState] = useState({ email: '', pwd: '' });
+    const [isLoading, setLoading] = useState(false);
     const [errorText, setErrorText] = useState('');
+    const { signIn } = useAuth();
 
-    const onTextHandler = text => {
-        setEmail(text);
-    };
-
-    const setPasswordHandler = pass => {
-        setPassword(pass);
+    const onChangeHandler = (evt, name) => {
+        const { text } = evt.nativeEvent;
+        setRegState(prev => ({ ...prev, [name]: text }));
     };
 
     const submitHandler = async () => {
-        const body = { email, password };
-        const { data, status, error } = await request('http://192.168.0.167:3500/auth', {
-            method: METHODS.POST,
-            body: JSON.stringify(body),
-        });
-
-        if (status && status < 400) {
-            // console.log(data, status, error);
-        } else {
-            console.log(data, status, error);
-            setErrorText(error.message);
+        try {
+            setLoading(true);
+            signIn(authState);
+        } catch (error) {
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -50,7 +44,7 @@ const Auth = ({ navigation }) => {
                 keyboardType='email-address'
                 iconSource={mailIcon}
                 value={email}
-                onChangeText={onTextHandler}
+                onChange={e => onChangeHandler(e, 'email')}
                 onFocus={() => setErrorText('')}
             />
 
@@ -61,7 +55,7 @@ const Auth = ({ navigation }) => {
                 keyboardType='visible-password'
                 secureTextEntry={true}
                 value={password}
-                onChangeText={setPasswordHandler}
+                onChange={e => onChangeHandler(e, 'pwd')}
             />
 
             <TouchableOpacity activeOpacity={0.6}>

@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-    View,
-    FlatList,
-    Text,
-    TouchableHighlight,
-    ImageBackground,
-    ActivityIndicator,
+    View, FlatList, Text, TouchableHighlight, ImageBackground, ActivityIndicator,
 } from 'react-native';
 import apiMethods from '../../../api/methods';
 import { apiRoute, AUTH_TOKEN } from '../../../api/constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import { setGradients } from '../../utils/setGradients';
 import { styles } from './HomeStyles';
+import { COLORS } from '../../constants/constants';
 import request from '../../utils/request';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
@@ -95,7 +91,11 @@ export default function Home({ navigation }) {
                             </TouchableHighlight>
                         )}
                     />
-                ) : <ActivityIndicator size="large" color="#0000ff" />}
+                ) : (
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <ActivityIndicator size="large" color={COLORS.indicator} />
+                    </View>
+                )}
             </Padding>
         </MainBg>
     )

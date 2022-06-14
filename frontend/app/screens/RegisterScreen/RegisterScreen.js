@@ -1,28 +1,25 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { View, Image, Text, ScrollView, TouchableOpacity, TouchableHighlight, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Input, { nameIcon, mailIcon, passIcon, triangleIcon } from '../../components/Inputs/Input';
+import useAuth from '../../hooks/useAuth';
 import { styles } from '../AuthScreen/AuthStyles';
-import request, { METHODS } from '../../utils/request';
-import AppContext from '../../Context/AppContext';
-import * as SecureStore from 'expo-secure-store';
-import { storeData } from '../../utils/storeUtils';
 
 const checkIcon = require('../../../assets/images/icons/completeCheck.png');
 
 const RegisterScreen = ({ navigation }) => {
-    const [registerComplete, setRegisterComplete] = useState(false);
+    const { register } = useAuth();
+    const [isLoading, setLoading] = useState(false);
     const [regState, setRegState] = useState({ name: '', email: '', pwd: '' });
+    const [registerComplete, setRegisterComplete] = useState(false);
     const [error, setError] = useState({
         name: '', email: '', pwd: '', general: '',
     });
-    const [isLoading, setLoading] = useState(false);
-    const [_, setAuth] = useContext(AppContext);
 
     const onChangeHandler = (evt, name) => {
         const { text } = evt.nativeEvent;
         setRegState(prev => ({ ...prev, [name]: text }));
-    }
+    };
 
     const handleSubmit = async () => {
         const { name, email, pwd } = regState;
@@ -31,35 +28,14 @@ const RegisterScreen = ({ navigation }) => {
         if (!email.length > 0) setError(prev => ({ ...prev, email: 'Заполните email!'}));
         if (!pwd.length > 6 || pwd.length === 0) setError(prev => ({ ...prev, pwd: 'Пароль должен быть больше 6 символов!'}));
         else {
-            setLoading(true);
-            const body = { user: regState.name, email: regState.email, password: regState.pwd };
-            const response = await request('http://192.168.0.167:3500/register', {
-                method: METHODS.POST,
-                body: JSON.stringify(body),
-            });
-
-            const { data, status, error } = response;
-
-            if (status < 400) {
-                // показывать успешной рег-ции, next step - change auth on true
-                // + получить объект юзера - вернуть его из бэка и сохранить токен на клиенте
-                await SecureStore.setItemAsync('accessToken', data.accessToken);
-                storeData(data.user, 'user');
-
-                setRegisterComplete(true);
-                setTimeout(() => {
-                    setAuth(true);
-                }, 1500);
+            try {
+                setLoading(true);
+                register(regState, setRegisterComplete, setError);
             }
-
-            if (status >= 400) {
-                setError(prev => ({
-                    ...prev,
-                    general: error.message,
-                }));
+            catch (error) {}
+            finally {
+                setLoading(false);
             }
-
-            setLoading(false);
         }
     };
 
