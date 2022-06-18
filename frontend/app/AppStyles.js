@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
         fontFamily: 'RoadRadioBlack',
     },
     tabBar: {
+        paddingTop: 27,
+        height: 85,
         backgroundColor: '#282A31',
         borderTopColor: '#282A31',
     },

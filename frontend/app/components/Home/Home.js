@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Image,
     View, FlatList, Text, TouchableHighlight, ImageBackground, ActivityIndicator,
 } from 'react-native';
 import apiMethods from '../../../api/methods';
