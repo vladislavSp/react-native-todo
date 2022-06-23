@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     View, FlatList, Text, TouchableHighlight, ImageBackground, ActivityIndicator,
 } from 'react-native';
@@ -17,7 +17,7 @@ const getBg = code => {
     const path = Backgrounds[code]?.uri;
     if (!path) return Backgrounds.WC.uri;
     return path;
-}
+};
 
 const Icon = ({ code, style}) => {
     let newCode = code;
@@ -56,6 +56,19 @@ export default function Home({ navigation }) {
         }
     }, []);
 
+    const onPressEventNavagate = useCallback((item) => {
+        let Page = 'League';
+
+        if (item.type === 'CUP') Page = 'Cup';
+
+        navigation.navigate(
+            Page, { eventId: item.code, eventName: item.name }
+        );
+        console.log(Page);
+    }, []);
+
+    // console.log(leagues);
+
     return (
         <MainBg>
             <Padding>
@@ -70,14 +83,7 @@ export default function Home({ navigation }) {
                         renderItem={({ item, index }) => (
                             <TouchableHighlight
                                 key={item.id}
-                                onPress={() => {
-                                    navigation.navigate(
-                                        'League', {
-                                            leagueId: item.code,
-                                            itemName: item.name,
-                                        }
-                                    )}
-                                }
+                                onPress={() => onPressEventNavagate(item)}
                             >
                                 <View style={styles.slide}>
                                     <LinearGradient 

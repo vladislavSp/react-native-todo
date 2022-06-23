@@ -7,11 +7,13 @@ const getHeaderTitle = (route, nav, dft) => {
     const routeName = getFocusedRouteNameFromRoute(route) ?? dft;
     const index = nav.getState()?.routes[0]?.state?.index;
     // костыль с навигацией, т.к. params - undefined в обычной флоу
-    const itemName = nav.getState().routes[0]?.state?.routes[index]?.params?.itemName;
+    const eventName = nav.getState().routes[0]?.state?.routes[index]?.params?.eventName;
 
     switch (routeName) {
         case 'League':
-            return itemName;
+            return eventName;
+        case 'Cup':
+            return eventName;
         default:
             return dft;
   }
