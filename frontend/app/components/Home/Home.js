@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-    View, FlatList, Text, TouchableHighlight, ImageBackground, ActivityIndicator,
+    View, FlatList, Text, TouchableHighlight, ImageBackground, ActivityIndicator, Image,
 } from 'react-native';
 import apiMethods from '../../../api/methods';
-import { apiRoute, AUTH_TOKEN } from '../../../api/constants';
+import { API_MAC_URL, AUTH_TOKEN } from '../../../api/constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import { setGradients } from '../../utils/setGradients';
 import { styles } from './HomeStyles';
@@ -19,7 +19,7 @@ const getBg = code => {
     return path;
 };
 
-const Icon = ({ code, style}) => {
+const Icon = ({ code, style }) => {
     let newCode = code;
     if (
         typeof newCode !== 'string' || !Icons[`${newCode}Icon`]
@@ -38,12 +38,10 @@ export default function Home({ navigation }) {
     useEffect(() => { // Запрос лиг
         if (!leagues) {
             const fetchData = async () => {
-                const { data, status, error } = await request(`${apiRoute}${apiMethods.leagues}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Auth-Token': AUTH_TOKEN,
-                    }
-                });
+                const url = `${API_MAC_URL}${apiMethods.leagues}`;
+                const { data, status, error } = await request(url);
+
+                console.log('Data', data);
 
                 if (status && (status < 400)) {
                     setLeagues(data);
@@ -56,48 +54,48 @@ export default function Home({ navigation }) {
         }
     }, []);
 
-    const onPressEventNavagate = useCallback((item) => {
+    const onPressEventNavagate = useCallback((league) => {
         let Page = 'League';
 
-        if (item.type === 'CUP') Page = 'Cup';
+        if (league.type.toLowerCase() === 'Cup') Page = 'Cup';
 
         navigation.navigate(
-            Page, { eventId: item.code, eventName: item.name }
+            Page, { eventId: league.id, eventName: league.name }
         );
-        console.log(Page);
     }, []);
-
-    // console.log(leagues);
 
     return (
         <MainBg>
             <Padding>
-                {leagues?.competitions ? (
+                {leagues ? (
                     <FlatList
                         initialNumToRender={initialNumToRender}
                         contentContainerStyle={{ paddingBottom: 20, paddingVertical: 38 }}
                         columnWrapperStyle={{ justifyContent: 'space-between' }}
-                        keyExtractor={(item => item.id)}
-                        data={leagues.competitions}
+                        keyExtractor={(item => item.league.id)}
+                        data={leagues}
                         numColumns={numColumns}
                         renderItem={({ item, index }) => (
                             <TouchableHighlight
-                                key={item.id}
-                                onPress={() => onPressEventNavagate(item)}
+                                key={item.league.id}
+                                onPress={() => onPressEventNavagate(item.league)}
                             >
                                 <View style={styles.slide}>
-                                    <LinearGradient 
+                                    <LinearGradient
                                         colors={setGradients(index)}
                                         style={styles.gradient}
                                     />
-                                    <ImageBackground
-                                        source={getBg(item.code)}
+                                    {/* <ImageBackground
+                                        source={getBg(item.league.name)}
                                         resizeMode="cover"
                                         style={styles.background}
-                                    />
+                                    /> */}
                                     <View style={styles.textWrap}>
-                                        <Icon code={item.code} style={styles.image} />
-                                        <Text ellipsizeMode="tail" numberOfLines={2} style={styles.text}>{item.name}</Text>
+                                        <Image
+                                            source={{ uri: item.league.logo }}
+                                            style={styles.image}
+                                        />
+                                        <Text ellipsizeMode="tail" numberOfLines={2} style={styles.text}>{item.league.name}</Text>
                                     </View>
                                 </View>
                             </TouchableHighlight>
