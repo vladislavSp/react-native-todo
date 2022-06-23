@@ -4,7 +4,7 @@ const path = require('path');
 
 //'^/$|/index(.html)?' - регулярка для поиска главной страницы
 router.get('^/$|/index(.html)?', (req, res) => {
-    res.send('Hello Server!'); // sendFile
+    res.send('Initialized App Server...'); // sendFile
 });
 
 // // 301 редирект со старой страницы пример

@@ -66,6 +66,6 @@ app.use(errorHandler);
 // listener mongodb
 mongoose.connection.once('open', () => {
     console.log('Connect to MongoDB...');
-    // downloadData();
+    downloadData();
     app.listen(PORT, () => console.log(`Server running on port:${PORT} - http://localhost:${PORT}`));
 });
