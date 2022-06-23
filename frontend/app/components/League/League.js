@@ -69,35 +69,35 @@ const League = ({ route }) => {
                     <Text style={[styles.tableText, { marginLeft: 16 }]}>Очки</Text>
                 </View>
 
-                {!teams?.standings?.length ? (
+                {!teams?.league?.standings[0]?.length ? (
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <ActivityIndicator size="large" color={COLORS.indicator} />
                     </View>
                 ) : (
                     <FlatList
-                        keyExtractor={(item) => item.team.id}
-                        data={teams.standings[0].table}
+                        keyExtractor={(item) => item.rank}
+                        data={teams.league.standings[0]}
                         renderItem={({ item }) => {
-                            const { position, team, playedGames, won, draw, lost, points } = item;
+                            const { rank, team, all, points } = item;
                             return (
                                 <View style={styles.tableRow}>
                                     <View style={styles.substrate}>
-                                        <Text style={styles.tableRowText}>{position}</Text>
+                                        <Text style={styles.tableRowText}>{rank}</Text>
                                     </View>
                                     <Text ellipsizeMode="tail" numberOfLines={1} style={[styles.tableRowText, styles.tableRowName]}>
                                         {team.name}
                                     </Text>
                                     <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowGame]}>
-                                        {playedGames}
+                                        {all.played}
                                     </Text>
                                     <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowWon]}>
-                                        {won}
+                                        {all.win}
                                     </Text>
                                     <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowDraw]}>
-                                        {draw}
+                                        {all.draw}
                                     </Text>
                                     <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowLost]}>
-                                        {lost}
+                                        {all.lose}
                                     </Text>
                                     <Text style={[styles.tableRowText, styles.tableRowPoints]}>
                                         {points}

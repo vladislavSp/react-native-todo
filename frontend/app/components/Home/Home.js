@@ -41,8 +41,6 @@ export default function Home({ navigation }) {
                 const url = `${API_MAC_URL}${apiMethods.leagues}`;
                 const { data, status, error } = await request(url);
 
-                console.log('Data', data);
-
                 if (status && (status < 400)) {
                     setLeagues(data);
                 } else {
