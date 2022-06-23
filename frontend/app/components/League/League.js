@@ -24,7 +24,7 @@ const TABS = [{
 
 // Страница для динамических данных
 const League = ({ route }) => {
-    const { leagueId } = route.params;
+    const { eventId } = route.params;
     const [teams, setTeams] = useState([]);
     const [tabState, setTabState] = useState(0);
     const [error, setError] = useState('');
@@ -33,12 +33,12 @@ const League = ({ route }) => {
         const fetchTeams = async () => {
             const {
                 data, status, error,
-            } = await request(`${apiRoute}${apiMethods.leagueMain(leagueId, 2021)}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Auth-Token': AUTH_TOKEN,
-                    }
-                });
+            } = await request(`${apiRoute}${apiMethods.leagueMain(eventId, 2021)}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Auth-Token': AUTH_TOKEN,
+                }
+            });
 
             if (status < 400) setTeams(data);
             else setError(error);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { AuthProvider } from './app/context/AuthContext';
 import useDownload from './app/hooks/useDownload';
 import AppNavigation from './app/navigation/AppNavigation';
@@ -10,7 +10,7 @@ export default function App() {
     if (!fontLoad) return null;
     return (
         <AuthProvider>
-            <NavigationContainer onReady={onLayoutRootView}>
+            <NavigationContainer onReady={onLayoutRootView} theme={DarkTheme}>
                 <AppNavigation />
             </NavigationContainer>
         </AuthProvider>
