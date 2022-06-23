@@ -1,0 +1,12 @@
+20220520	18:06:57	d7d265e6-d37e-4f04-b6a4-cad3b022925c	Error: Not allowed by CORS
+20220520	20:59:10	ca0182e4-61fd-4d46-8b87-9a07b1797a73	Error: Not allowed by CORS
+20220520	20:59:40	d3bee234-1b71-4715-a537-a1892fe74433	Error: Not allowed by CORS
+20220521	11:44:42	d78eb430-fc2a-4901-9f92-431f0f020dd6	Error: ENOENT: no such file or directory, stat 'G:\Work\todoRN\server\routes\files\newReply.txt'
+20220521	11:44:51	4e7801e3-281c-4982-ae6d-d4bbfb898d95	Error: ENOENT: no such file or directory, stat 'G:\Work\todoRN\server\files\newReply.txt'
+20220521	11:45:41	977f2630-16d2-4641-8010-40a1cb88b90e	Error: ENOENT: no such file or directory, stat 'G:\Work\todoRN\server\files\newReply.txt'
+20220521	12:33:56	3620a7eb-a9da-4c1f-bca8-70b4128ca4f7	Error: Cannot set headers after they are sent to the client
+20220526	17:05:53	1d9f51fb-eb3f-4df1-97a9-1b432307df0d	ReferenceError: procenn is not defined
+20220602	14:22:48	989eca2b-83a9-4dbc-8261-69e1750ff12e	TypeError: allowedOrigins.includes is not a function
+20220602	14:22:49	26f65842-525b-4bd4-859c-a7ad065b860a	TypeError: allowedOrigins.includes is not a function
+20220602	14:23:44	07fd5108-49ad-4d2e-bc88-309dff7720d4	TypeError: Cannot read properties of undefined (reading 'includes')
+20220602	14:23:44	e3eb515c-1184-4862-99b8-c2fe0c5fd691	TypeError: Cannot read properties of undefined (reading 'includes')
