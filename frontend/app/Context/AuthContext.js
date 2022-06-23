@@ -5,8 +5,8 @@ import { deletePrivateKey, getData, removeDataItem, savePrivateKey, storeData } 
 import { STRINGS } from '../constants/constants';
 
 const AUTH_PATHS = {
-    register: 'http://192.168.0.167:3500/register',
-    auth: 'http://192.168.0.167:3500/auth',
+    register: 'http://192.168.0.159:3500/register',
+    auth: 'http://192.168.0.159:3500/auth',
 };
 
 const AuthContext = createContext({});
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const authDataSerialized = getData(STRINGS.userData);
 
-            if (authDataSerialized)  setAuthData(authDataSerialized);
+            if (authDataSerialized) setAuthData(authDataSerialized);
         } catch (error) {
             console.log(error);
         } finally {
