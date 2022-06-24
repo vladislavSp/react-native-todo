@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { apiRoute, AUTH_TOKEN } from '../../../api/constants';
+import { apiRoute, API_MAC_URL, AUTH_TOKEN } from '../../../api/constants';
 import apiMethods from '../../../api/methods';
 import request from '../../utils/request';
 import MainBg from '../MainBg/MainBg';
@@ -13,14 +13,8 @@ const Cup = ({ route }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const {
-                data, status, error,
-            } = await request(`${apiRoute}${apiMethods.cupMatches(eventId, cupStage)}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Auth-Token': AUTH_TOKEN,
-                },
-            });
+            const url = `${API_MAC_URL}${apiMethods.cup}`;
+            const { data, status, error } = await request();
 
             // console.log(data, status, error);
 
@@ -41,7 +35,7 @@ const Cup = ({ route }) => {
         <MainBg>
             <Padding top={38}>
                 <View>
-                    <Text style={{color: '#fff'}}>{eventId}</Text>
+                    <Text style={{ color: '#fff' }}>{eventId}</Text>
                 </View>
             </Padding>
         </MainBg>

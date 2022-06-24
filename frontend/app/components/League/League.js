@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { styles } from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
-import { apiRoute, AUTH_TOKEN } from '../../../api/constants';
+import { apiRoute, API_MAC_URL, AUTH_TOKEN } from '../../../api/constants';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
 import request from '../../utils/request';
@@ -24,27 +24,24 @@ const TABS = [{
 
 // Страница для динамических данных
 const League = ({ route }) => {
+    const [season, setSeason] = useState(2021);
     const { eventId } = route.params;
     const [teams, setTeams] = useState([]);
     const [tabState, setTabState] = useState(0);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchTeams = async () => {
-            const {
-                data, status, error,
-            } = await request(`${apiRoute}${apiMethods.leagueMain(eventId, 2021)}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Auth-Token': AUTH_TOKEN,
-                }
-            });
+        const fetchStanding = async () => {
+            const url = `${API_MAC_URL}${apiMethods.leagueStandings(eventId, season)}`;
+            const { data, status, error } = await request(url);
+
+            console.log('Standings: ', data);
 
             if (status < 400) setTeams(data);
             else setError(error);
         }
 
-        fetchTeams();
+        fetchStanding();
     }, []);
 
     return (
@@ -52,7 +49,7 @@ const League = ({ route }) => {
             <Padding>
                 <View style={styles.tabList}>
                     {TABS.map((tab, index) => (
-                        <LinearGradient 
+                        <LinearGradient
                             key={tab.id}
                             colors={tabState === tab.id ? setGradients(index) : ['#6C6C6C', '#6C6C6C']}
                             style={styles.tab}
@@ -72,37 +69,37 @@ const League = ({ route }) => {
                     <Text style={[styles.tableText, { marginLeft: 16 }]}>Очки</Text>
                 </View>
 
-                {!teams?.standings?.length ? (
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                {!teams?.league?.standings[0]?.length ? (
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <ActivityIndicator size="large" color={COLORS.indicator} />
                     </View>
                 ) : (
                     <FlatList
-                        keyExtractor={(item) => item.team.id}
-                        data={teams.standings[0].table}
+                        keyExtractor={(item) => item.rank}
+                        data={teams.league.standings[0]}
                         renderItem={({ item }) => {
-                            const { position, team, playedGames, won, draw, lost, points } = item;
+                            const { rank, team, all, points } = item;
                             return (
                                 <View style={styles.tableRow}>
                                     <View style={styles.substrate}>
-                                        <Text style={styles.tableRowText}>{position}</Text>
+                                        <Text style={styles.tableRowText}>{rank}</Text>
                                     </View>
                                     <Text ellipsizeMode="tail" numberOfLines={1} style={[styles.tableRowText, styles.tableRowName]}>
                                         {team.name}
                                     </Text>
                                     <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowGame]}>
-                                        {playedGames}
+                                        {all.played}
                                     </Text>
                                     <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowWon]}>
-                                        {won}
+                                        {all.win}
                                     </Text>
                                     <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowDraw]}>
-                                        {draw}
+                                        {all.draw}
                                     </Text>
                                     <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowLost]}>
-                                        {lost}
+                                        {all.lose}
                                     </Text>
-                                    <Text style={[styles.tableRowText, styles.tableRowPoints ]}>
+                                    <Text style={[styles.tableRowText, styles.tableRowPoints]}>
                                         {points}
                                     </Text>
                                 </View>
