@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 
-const MainBg = ({ children }) => (
+const MainBg = ({ children, style = 'light-content' }) => (
     <View style={styles.wrapper}>
+        <StatusBar barStyle={style} backgroundColor="#282A31" />
         { children }
     </View>
 );

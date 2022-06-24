@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-    View, FlatList, Text, TouchableHighlight, ImageBackground, Image,
+    View, FlatList, Text, TouchableHighlight, ImageBackground, Image, StatusBar,
 } from 'react-native';
 import apiMethods from '../../../api/methods';
 import { API_URL } from '../../../api/constants';

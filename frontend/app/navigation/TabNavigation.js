@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Image, ImageBackground } from 'react-native';
+import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import HomeNavigation from './HomeNavigation';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import styles from '../AppStyles';
@@ -15,7 +14,7 @@ const TabNavigation = () => (
             tabBarStyle: styles.tabBar,
             headerStyle: styles.header,
             headerTitleStyle: styles.headerText,
-            headerStatusBarHeight: 70,
+            headerStatusBarHeight: 65,
             headerShadowVisible: false, // убирает бордер на нижней границе header
             tabBarShowLabel: false,
         }}
