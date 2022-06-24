@@ -44,8 +44,9 @@ app.use('/auth', require('./routes/auth')); // connect routes for the register
 app.use('/refresh', require('./routes/refresh')); // connect r for the refresh token
 app.use('/logout', require('./routes/logout')); // connect r for the logout
 
-app.use('/leagues', require('./routes/api/league')); // connect routes for the api
+app.use('/leagues', require('./routes/api/leagues')); // connect routes for the api
 app.use('/teams', require('./routes/api/teams')); // connect r for the teams by season
+app.use('/league', require('./routes/api/standings'));
 
 // redirect unregistered routes and check file-types
 app.all('*', (req, res) => {

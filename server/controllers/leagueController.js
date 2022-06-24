@@ -1,5 +1,6 @@
 // Controller from MVC model - leagues
 const Leagues = require('../model/Leagues');
+const Standings = require('../model/Standings');
 
 const getAllLeagues = async (req, res) => {
     const leagues = await Leagues.find();
@@ -15,7 +16,7 @@ const createNewLeague = (req, res) => {
     }
 
     if (!newLeague.name || !newLeague.country) {
-        return res.status(400).json({ "message": "Name and country are required."});
+        return res.status(400).json({ "message": "Name and country are required." });
     }
 
     data.setLeagues([...data.leagues, newLeague]);
@@ -38,7 +39,7 @@ const updateLeague = (req, res) => {
 const deleteLeague = (req, res) => {
     const league = data.leagues.find(league => league.id === parseInt(req.body.id));
     if (!league) {
-        res.status(404).json({ "message": `League ID ${req.body.id} not found`});
+        res.status(404).json({ "message": `League ID ${req.body.id} not found` });
     }
 
     const filteredArray = data.leagues.filter(league => league.id !== parseInt(req.body.id));
@@ -46,13 +47,18 @@ const deleteLeague = (req, res) => {
     res.json(data.leagues);
 };
 
-const getLeague = async (req, res) => {
-    if(!req?.params?.id) {
-        res.status(404).json({ 'message': `League ID params required!` });
+const getStanding = async (req, res) => {
+    if (!req?.query?.id || !req?.query?.season) {
+        res.status(404).json({ 'message': `League ID/Season params required!` });
     }
 
-    const league = await Leagues.findOne({ 'league.id': req.params.id });
-    res.json(league);
+    const standings = await Standings.findOne({
+        $or: [{ 'league.id': req.query.id, 'league.season': req.query.season }]
+    });
+
+    if (!standings) res.status(404).json({ 'message': `League standings id: ${req.query.id} and season: ${req.query.season} not found!` });
+
+    res.json(standings);
 };
 
 module.exports = {
@@ -60,5 +66,5 @@ module.exports = {
     createNewLeague,
     updateLeague,
     deleteLeague,
-    getLeague
+    getStanding
 };

@@ -5,7 +5,6 @@ const {
     createNewLeague,
     updateLeague,
     deleteLeague,
-    getLeague,
 } = require('../../controllers/leagueController');
 // const verifyJWT = require('../../middleware/verifyJWT');
 
@@ -16,6 +15,6 @@ router.route('/')
     .put(updateLeague)
     .delete(deleteLeague);
 
-router.route('/:id').get(getLeague);
+// router.route('/:id').get(getLeague);
 
 module.exports = router;
