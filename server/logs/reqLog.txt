@@ -1,0 +1,3 @@
+20220624	18:11:25	b3a4aefa-d6af-4a47-b406-127f0ea37a86	GET	undefined	/league?id=39&season=2021
+20220624	18:16:32	9f426236-72df-4d6e-a748-52afbfa7eb65	GET	undefined	/standings?id=39&season=2021
+20220624	18:37:06	9c7e1eb1-fee6-49d6-a898-a8b010fed039	GET	undefined	/standings?id=4&season=2020
