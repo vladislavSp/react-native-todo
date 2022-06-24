@@ -31,12 +31,14 @@ const Icon = ({ code, style }) => {
 
 export default function Home({ navigation }) {
     const [leagues, setLeagues] = useState(null);
+    const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(''); // TODO - create error Modal!
     const numColumns = 2;
     const initialNumToRender = 8;
 
     useEffect(() => { // Запрос лиг
         if (!leagues) {
+            setLoading(true);
             const fetchData = async () => {
                 const url = `${API_MAC_URL}${apiMethods.leagues}`;
                 const { data, status, error } = await request(url);
@@ -46,6 +48,7 @@ export default function Home({ navigation }) {
                 } else {
                     setError(error.message);
                 }
+                setLoading(false);
             }
 
             fetchData();
@@ -62,6 +65,9 @@ export default function Home({ navigation }) {
         );
     }, []);
 
+
+    // TODO сделать состояние загрузки
+    // и состояние, когда ничего не загрузилось
     return (
         <MainBg>
             <Padding>
