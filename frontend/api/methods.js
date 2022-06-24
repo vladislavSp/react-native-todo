@@ -1,6 +1,6 @@
 export const apiMethods = {
     leagues: `/leagues`,
-    leagueStandings: (id, season = 2021) => `/league?id=${id}&season=${season}`,
+    standings: (id, season = 2021) => `/standings?id=${id}&season=${season}`,
     cupMatches: (id, season) => `/cup?id=${id}season=${season}`,
 };
 

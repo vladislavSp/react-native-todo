@@ -59,14 +59,23 @@ export default function Home({ navigation }) {
         fetchData();
     }
 
-    const onPressEventNavagate = useCallback((league) => {
+    const onPressEventNavagate = useCallback((league, seasons) => {
+        const type = league.type.toLowerCase();
+        const CUP = type === 'cup';
         let Page = 'League';
+        const currentSeason = seasons.find(s => s.current);
 
-        if (league.type.toLowerCase() === 'Cup') Page = 'Cup';
+        const routeParams = {
+            eventId: league.id,
+            eventName: league.name,
+            season: 2021, // TODO переделать на current value
+        };
 
-        navigation.navigate(
-            Page, { eventId: league.id, eventName: league.name }
-        );
+        // Проверка Кубок или Лига
+        if (CUP) Page = 'Cup';
+        if (CUP) routeParams.season = currentSeason?.year;
+
+        navigation.navigate(Page, routeParams);
     }, []);
 
     if (isLoading) return <Loading />;
@@ -86,7 +95,7 @@ export default function Home({ navigation }) {
                         renderItem={({ item, index }) => (
                             <TouchableHighlight
                                 key={item.league.id}
-                                onPress={() => onPressEventNavagate(item.league)}
+                                onPress={() => onPressEventNavagate(item.league, item.seasons)}
                             >
                                 <View style={styles.slide}>
                                     <LinearGradient

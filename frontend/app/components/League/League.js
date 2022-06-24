@@ -32,10 +32,8 @@ const League = ({ route }) => {
 
     useEffect(() => {
         const fetchStanding = async () => {
-            const url = `${API_URL}${apiMethods.leagueStandings(eventId, season)}`;
+            const url = `${API_URL}${apiMethods.standings(eventId, season)}`;
             const { data, status, error } = await request(url);
-
-            console.log('Standings: ', data);
 
             if (status < 400) setTeams(data);
             else setError(error);
@@ -43,8 +41,6 @@ const League = ({ route }) => {
 
         fetchStanding();
     }, []);
-
-    console.log(error);
 
     return (
         <MainBg>

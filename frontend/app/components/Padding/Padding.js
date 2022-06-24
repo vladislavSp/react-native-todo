@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 25,
     },
-    top(value) {
+    top(value = 0) {
         return {
             paddingTop: value,
         }
