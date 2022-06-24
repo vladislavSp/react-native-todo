@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { styles } from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
-import { apiRoute, API_MAC_URL, AUTH_TOKEN } from '../../../api/constants';
+import { API_MAC_URL, API_URL } from '../../../api/constants';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
 import request from '../../utils/request';
@@ -32,7 +32,7 @@ const League = ({ route }) => {
 
     useEffect(() => {
         const fetchStanding = async () => {
-            const url = `${API_MAC_URL}${apiMethods.leagueStandings(eventId, season)}`;
+            const url = `${API_URL}${apiMethods.leagueStandings(eventId, season)}`;
             const { data, status, error } = await request(url);
 
             console.log('Standings: ', data);
@@ -43,6 +43,8 @@ const League = ({ route }) => {
 
         fetchStanding();
     }, []);
+
+    console.log(error);
 
     return (
         <MainBg>

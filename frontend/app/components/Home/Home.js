@@ -70,6 +70,7 @@ export default function Home({ navigation }) {
     }, []);
 
     if (isLoading) return <Loading />;
+    // if (error) return <Error />; TODO
 
     return (
         <MainBg>
