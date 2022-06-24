@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-    View, FlatList, Text, TouchableHighlight, ImageBackground, ActivityIndicator, Image,
+    View, FlatList, Text, TouchableHighlight, ImageBackground, Image,
 } from 'react-native';
 import apiMethods from '../../../api/methods';
-import { API_MAC_URL, AUTH_TOKEN } from '../../../api/constants';
+import { API_URL } from '../../../api/constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import { setGradients } from '../../utils/setGradients';
 import { styles } from './HomeStyles';
-import { COLORS } from '../../constants/constants';
+// import { COLORS } from '../../constants/constants';
 import request from '../../utils/request';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
 import { Icons, Backgrounds } from './Images';
+import Loading from '../Loading/Loading';
 
 const getBg = code => {
     const path = Backgrounds[code]?.uri;
@@ -36,24 +37,27 @@ export default function Home({ navigation }) {
     const numColumns = 2;
     const initialNumToRender = 8;
 
-    useEffect(() => { // Запрос лиг
-        if (!leagues) {
-            setLoading(true);
-            const fetchData = async () => {
-                const url = `${API_MAC_URL}${apiMethods.leagues}`;
-                const { data, status, error } = await request(url);
+    const fetchData = useCallback(async () => {
+        setLoading(true);
+        const url = `${API_URL}${apiMethods.leagues}`;
+        const { data, status, error } = await request(url);
 
-                if (status && (status < 400)) {
-                    setLeagues(data);
-                } else {
-                    setError(error.message);
-                }
-                setLoading(false);
-            }
-
-            fetchData();
+        if (status && (status < 400)) {
+            setLeagues(data);
+        } else {
+            setError(error.message);
         }
+        setLoading(false);
     }, []);
+
+    useEffect(() => {
+        // Запрос лиг
+        if (!leagues) fetchData();
+    }, []);
+
+    const updateInfo = () => {
+        fetchData();
+    }
 
     const onPressEventNavagate = useCallback((league) => {
         let Page = 'League';
@@ -65,9 +69,8 @@ export default function Home({ navigation }) {
         );
     }, []);
 
+    if (isLoading) return <Loading />;
 
-    // TODO сделать состояние загрузки
-    // и состояние, когда ничего не загрузилось
     return (
         <MainBg>
             <Padding>
@@ -107,7 +110,14 @@ export default function Home({ navigation }) {
                     />
                 ) : (
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <ActivityIndicator size="large" color={COLORS.indicator} />
+                        <Text style={styles.textUpdate}>К сожалению, что-то пошло не так! Попытайтесь загрузить информацию еще раз! &darr;</Text>
+                        <TouchableHighlight
+                            activeOpacity={0.6}
+                            style={styles.updateBtn}
+                            onPress={updateInfo}
+                        >
+                            <Text style={styles.textUpdate}>Загрузить</Text>
+                        </TouchableHighlight>
                     </View>
                 )}
             </Padding>

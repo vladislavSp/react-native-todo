@@ -41,5 +41,23 @@ export const styles = StyleSheet.create({
         width: 30,
         height: 30,
         resizeMode: 'contain',
+    },
+    textUpdate: {
+        color: '#fff',
+        fontFamily: 'RoadRadioBlack',
+        fontSize: 18,
+        lineHeight: 24,
+        textAlign: 'center',
+        maxWidth: 320,
+    },
+    updateBtn: {
+        marginTop: 10,
+        padding: 8,
+        paddingVertical: 10,
+        fontFamily: 'RoadRadioBlack',
+        backgroundColor: '#282A31',
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });
