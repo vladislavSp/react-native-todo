@@ -55,9 +55,7 @@ export default function Home({ navigation }) {
         if (!leagues) fetchData();
     }, []);
 
-    const updateInfo = () => {
-        fetchData();
-    }
+    const updateInfo = () => fetchData();
 
     const onPressEventNavagate = useCallback((league, seasons) => {
         const type = league.type.toLowerCase();
@@ -71,9 +69,10 @@ export default function Home({ navigation }) {
             season: 2021, // TODO переделать на current value
         };
 
-        // Проверка Кубок или Лига
         if (CUP) Page = 'Cup';
-        if (CUP) routeParams.season = currentSeason?.year;
+        // TODO убрать костыли, когда будет API
+        if (CUP) routeParams.season = currentSeason?.year === 2022 ? 2021 : currentSeason?.year;
+        if (CUP && league.name === 'World Cup') routeParams.season = 2018;
 
         navigation.navigate(Page, routeParams);
     }, []);

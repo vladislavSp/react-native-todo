@@ -1,5 +1,13 @@
 import { StyleSheet } from 'react-native';
 
+export const FONT_NAMES = {
+    RRRegular: 'RoadRadio',
+    RRBlack: 'RoadRadioBlack',
+    RRBold: 'RoadRadioBold',
+    RRLight: 'RoadRadioLight',
+    RRThin: 'RoadRadioThin',
+};
+
 const styles = StyleSheet.create({
     header: {
         backgroundColor: '#282A31',

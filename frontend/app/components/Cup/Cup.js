@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
-import { API_URL, API_MAC_URL } from '../../../api/constants';
+import { FlatList, Text, View, SectionList } from 'react-native';
+import { API_URL } from '../../../api/constants';
 import apiMethods from '../../../api/methods';
 import request from '../../utils/request';
 import Loading from '../Loading/Loading';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
+import Tabs from '../Tabs/Tabs';
+import { styles } from './CupStyles';
+
+const TABS = [{
+    id: 0,
+    title: 'Групповой этап',
+}, {
+    id: 1,
+    title: 'Раунд плей-офф',
+}, {
+    id: 2,
+    title: 'Статистика турнира',
+}];
 
 const Cup = ({ route }) => {
-    const { eventId, eventName, season } = route.params;
+    const { eventId, season } = route.params;
     const [info, setInfo] = useState([]);
     const [error, setError] = useState();
     const [currentSeason, setSeasons] = useState(season);
+    const [tabState, setTabState] = useState(TABS[0].id);
 
     useEffect(() => {
         const fetchInfo = async () => {
@@ -24,31 +38,83 @@ const Cup = ({ route }) => {
             } else {
                 setError(error.message);
             }
-
         }
 
         fetchInfo();
     }, []);
 
-    if (!info.length) <Loading />;
+    if (!info || !info?.length) <Loading />;
+
+    const StatsHeader = ({ title }) => (
+        <View style={styles.statsHeader}>
+            <Text style={styles.groupTitle}>{title}</Text>
+            <View style={styles.headerGroup}>
+                <Text
+                    style={[styles.statText, styles.firstHeaderText]}
+                >
+                    Игры
+                </Text>
+                <Text style={[styles.statText, styles.winText]}>
+                    В
+                </Text>
+                <Text style={[styles.statText, styles.drawText]}>
+                    Н
+                </Text>
+                <Text style={[styles.statText, styles.loseText]}>П</Text>
+                <Text
+                    style={[styles.statText, styles.lastHeaderText]}
+                >
+                    Очки
+                </Text>
+            </View>
+        </View>
+    );
 
     return (
         <MainBg>
             <Padding top={38}>
-                <View>
-                    <Text style={{ color: '#fff', marginBottom: 20 }}>Соревнование {eventName}!</Text>
+                <Tabs tabs={TABS} state={tabState} />
+                <View style={{ paddingBottom: 70 }}>
                     <FlatList
+                        showsVerticalScrollIndicator={false}
                         keyExtractor={(_, index) => index}
                         data={info}
                         renderItem={({ item }) => (
-                            <View style={{ marginBottom: 20 }}>
-                                <Text style={{ color: '#fff'}}>{item[0]?.group}</Text>
+                            <View style={styles.groupBlock}>
+                                <StatsHeader title={item[0]?.group} />
                                 {item.map((team, i) => (
                                     <View
+                                        style={styles.groupRow}
                                         key={`${team?.team.name}${Math.random()}`}
-                                        style={{backgroundColor: '#282A31'}}
                                     >
-                                        <Text style={{color: '#fff'}}>{team?.team?.name}</Text>
+                                        <Text style={styles.numberTeam}>{`${i + 1}.`}</Text>
+                                        <Text
+                                            style={styles.nameTeam}
+                                            ellipsizeMode="tail"
+                                            numberOfLines={1}
+                                        >
+                                            {team?.team?.name}
+                                        </Text>
+                                        <View style={styles.stats}>
+                                            <Text
+                                                style={[styles.statText, styles.firstHeaderText]}
+                                            >
+                                                {team?.all?.played}
+                                            </Text>
+                                            <Text style={[styles.statText, styles.winText]}>
+                                                {team?.all?.win}
+                                            </Text>
+                                            <Text style={[styles.statText, styles.drawText]}>
+                                                {team?.all?.draw}
+                                            </Text>
+                                            <Text style={[styles.statText, styles.loseText]}>
+                                                {team?.all?.lose}
+                                            </Text>
+                                            <Text style={[styles.statBigText, styles.lastHeaderText]}>
+                                                {team?.points}
+                                            </Text>
+                                        </View>
+                                        
                                     </View>
                                 ))}
                             </View>

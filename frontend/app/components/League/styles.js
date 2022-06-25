@@ -10,28 +10,6 @@ export const styles = StyleSheet.create({
        color: '#fff',
        marginBottom: 10,
    },
-   tabList: {
-       flexDirection: 'row',
-       justifyContent: 'space-between',
-       marginVertical: 32,
-   },
-   tab: {
-       justifyContent: 'center',
-       alignItems: 'center',
-       borderRadius: 6,
-       width: '30%',
-       height: 43,
-   },
-   tabText: {
-        fontFamily: 'RoadRadioBlack',
-        color: '#fff',
-        textAlign: 'center',
-        opacity: 0.5,
-        fontSize: 10,
-   },
-   tabTextActive: {
-       opacity: 1,
-   },
    headerTable: {
        height: 24,
        flexDirection: 'row',

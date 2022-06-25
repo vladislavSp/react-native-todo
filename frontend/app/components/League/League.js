@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { styles } from './styles';
-import { LinearGradient } from 'expo-linear-gradient';
-import { API_MAC_URL, API_URL } from '../../../api/constants';
+import { API_URL } from '../../../api/constants';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
 import request from '../../utils/request';
 import apiMethods from '../../../api/methods';
-import setGradients from '../../utils/setGradients';
 import { FlatList } from 'react-native-gesture-handler';
 import { COLORS } from '../../constants/constants';
+import Tabs from '../Tabs/Tabs';
 
 const TABS = [{
     id: 0,
@@ -27,7 +26,7 @@ const League = ({ route }) => {
     const [season, setSeason] = useState(2021);
     const { eventId } = route.params;
     const [teams, setTeams] = useState([]);
-    const [tabState, setTabState] = useState(0);
+    const [tabState, setTabState] = useState(TABS[0].id);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -44,19 +43,8 @@ const League = ({ route }) => {
 
     return (
         <MainBg>
-            <Padding>
-                <View style={styles.tabList}>
-                    {TABS.map((tab, index) => (
-                        <LinearGradient
-                            key={tab.id}
-                            colors={tabState === tab.id ? setGradients(index) : ['#6C6C6C', '#6C6C6C']}
-                            style={styles.tab}
-                        >
-                            <Text style={[styles.tabText, tabState === tab.id ? styles.tabTextActive : '']}>{tab.title}</Text>
-                        </LinearGradient>
-                    ))}
-                </View>
-
+            <Padding top={38}>
+                <Tabs tabs={TABS} state={tabState} />
                 <View style={styles.headerTable}>
                     <Text style={[styles.tableText, styles.tableTextFirst]}>№</Text>
                     <Text style={styles.tableText}>Команда</Text>
@@ -73,6 +61,7 @@ const League = ({ route }) => {
                     </View>
                 ) : (
                     <FlatList
+                        showsVerticalScrollIndicator={false}
                         keyExtractor={(item) => item.rank}
                         data={teams.league.standings[0]}
                         renderItem={({ item }) => {
