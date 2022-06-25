@@ -15,6 +15,4 @@ router.route('/')
     .put(updateLeague)
     .delete(deleteLeague);
 
-// router.route('/:id').get(getLeague);
-
 module.exports = router;
