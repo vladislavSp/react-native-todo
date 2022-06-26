@@ -56,7 +56,9 @@ const getStanding = async (req, res) => {
         $or: [{ 'league.id': req.query.id, 'league.season': req.query.season }]
     });
 
-    if (!standings) return res.status(404).json({ 'message': 'Standings not found!' });
+    if (!standings) {
+        return res.status(404).json({ 'message': `Standings for league/cup ${req.query.id} and season ${req.query.season} not found!` });
+    }
 
     res.json(standings);
 };
