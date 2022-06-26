@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
         color: '#fff',
     },
     teams: {
-        minHeight: 24,
+        height: '100%',
         justifyContent: 'space-between',
     },
     team: {
