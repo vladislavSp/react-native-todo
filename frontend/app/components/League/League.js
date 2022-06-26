@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
-import { styles } from './styles';
 import { API_URL } from '../../../api/constants';
 import MainBg from '../MainBg/MainBg';
 import Padding from '../Padding/Padding';
 import request from '../../utils/request';
 import apiMethods from '../../../api/methods';
-import { FlatList } from 'react-native-gesture-handler';
-import { COLORS } from '../../constants/constants';
 import Tabs from '../Tabs/Tabs';
+import Standings from './Standings/Standings';
 
 const TABS = [{
     id: 0,
@@ -41,62 +38,23 @@ const League = ({ route }) => {
         fetchStanding();
     }, []);
 
+    // Обработать ошибку TODO
+    if (!teams) return null;
+
+    const changeTabs = id => {
+        setTabState(id);
+    }
+
     return (
         <MainBg>
             <Padding top={38}>
-                <Tabs tabs={TABS} state={tabState} />
-                <View style={styles.headerTable}>
-                    <Text style={[styles.tableText, styles.tableTextFirst]}>№</Text>
-                    <Text style={styles.tableText}>Команда</Text>
-                    <Text style={[styles.tableText, { marginLeft: 'auto' }]}>Игры</Text>
-                    <Text style={[styles.tableText, { marginLeft: 11 }]}>В</Text>
-                    <Text style={[styles.tableText, { marginLeft: 11 }]}>Н</Text>
-                    <Text style={[styles.tableText, { marginLeft: 11 }]}>П</Text>
-                    <Text style={[styles.tableText, { marginLeft: 16 }]}>Очки</Text>
-                </View>
-
-                {!teams?.league?.standings[0]?.length ? (
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <ActivityIndicator size="large" color={COLORS.indicator} />
-                    </View>
-                ) : (
-                    <FlatList
-                        showsVerticalScrollIndicator={false}
-                        keyExtractor={(item) => item.rank}
-                        data={teams.league.standings[0]}
-                        renderItem={({ item }) => {
-                            const { rank, team, all, points } = item;
-                            return (
-                                <View style={styles.tableRow}>
-                                    <View style={styles.substrate}>
-                                        <Text style={styles.tableRowText}>{rank}</Text>
-                                    </View>
-                                    <Text ellipsizeMode="tail" numberOfLines={1} style={[styles.tableRowText, styles.tableRowName]}>
-                                        {team.name}
-                                    </Text>
-                                    <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowGame]}>
-                                        {all.played}
-                                    </Text>
-                                    <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowWon]}>
-                                        {all.win}
-                                    </Text>
-                                    <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowDraw]}>
-                                        {all.draw}
-                                    </Text>
-                                    <Text style={[styles.tableRowText, styles.tableRowSmallText, styles.tableRowLost]}>
-                                        {all.lose}
-                                    </Text>
-                                    <Text style={[styles.tableRowText, styles.tableRowPoints]}>
-                                        {points}
-                                    </Text>
-                                </View>
-                            )
-                        }}
-                    />
+                <Tabs tabs={TABS} state={tabState} changeTabs={changeTabs} />
+                {tabState === TABS[0].id && (
+                    <Standings standings={teams?.league?.standings} />
                 )}
             </Padding>
         </MainBg>
-    )
+    );
 };
 
 export default League;

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { FONT_NAMES } from '../../AppStyles';
 
 export const styles = StyleSheet.create({
     tabList: {
@@ -6,15 +7,19 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 28,
     },
-    tab: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 6,
+    tabBtn: {
         width: '30%',
         height: 43,
     },
+    gradient: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+        borderRadius: 6,
+    },
     tabText: {
-        fontFamily: 'RoadRadioBlack',
+        fontFamily: FONT_NAMES.RRBlack,
         color: '#fff',
         textAlign: 'center',
         opacity: 0.5,
