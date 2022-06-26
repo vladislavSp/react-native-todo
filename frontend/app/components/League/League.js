@@ -6,6 +6,7 @@ import request from '../../utils/request';
 import apiMethods from '../../../api/methods';
 import Tabs from '../Tabs/Tabs';
 import Standings from './Standings/Standings';
+import Shedule from './Shedule/Shedule';
 
 const TABS = [{
     id: 0,
@@ -49,8 +50,13 @@ const League = ({ route }) => {
         <MainBg>
             <Padding top={38}>
                 <Tabs tabs={TABS} state={tabState} changeTabs={changeTabs} />
+
                 {tabState === TABS[0].id && (
                     <Standings standings={teams?.league?.standings} />
+                )}
+
+                {tabState === TABS[1].id && (
+                    <Shedule />
                 )}
             </Padding>
         </MainBg>
