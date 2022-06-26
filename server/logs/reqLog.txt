@@ -358,3 +358,17 @@
 20220626	00:03:13	5fae741d-f5cc-48a6-8986-d53e8346b543	GET	undefined	/standings?id=4&season=2020
 20220626	00:03:18	901afc44-309d-45be-bd42-3c5e37df165c	GET	undefined	/standings?id=39&season=2021
 20220626	00:03:20	e33e618b-0b92-469b-bd96-287c4f6d231d	GET	undefined	/standings?id=39&season=2021
+20220626	13:33:11	e774ceb5-98a7-4933-9ee5-cc5485e86ed3	GET	undefined	/standings?id=1&season=2022
+20220626	13:33:49	64ac4371-2533-46a1-9d34-8535c4df3c9b	GET	undefined	/standings?id=1&season=2022
+20220626	13:38:16	c9ba6536-2c1f-41ac-966d-4ed954ca712c	GET	undefined	/standings?id=1&season=2022
+20220626	13:38:39	b8967810-f9f1-44f1-9f3b-9e3653c44760	GET	undefined	/standings?id=1&season=2022
+20220626	13:39:40	b64ab2f1-ffbb-4666-bf87-cca6e1d9dbc6	GET	undefined	/standings?id=1&season=2022
+20220626	13:42:43	404aaa3d-0ce6-4294-b0b1-19dc909b42a0	GET	undefined	/standings?id=1&season=2022
+20220626	13:43:06	e6c89e9b-a86d-445e-80a6-cbae46da5774	GET	undefined	/standings?id=1&season=2022
+20220626	13:43:16	8269c365-2dbf-4bfa-ba5c-a238a3a1b25a	GET	undefined	/standings?id=1&season=2022
+20220626	13:43:34	0dc02249-2d6f-4b5c-8590-06bf32d8369f	GET	undefined	/standings?id=1&season=2022
+20220626	13:44:18	71f17704-ac11-437e-b88f-3f56b6ee7c78	GET	undefined	/standings?id=1&season=2022
+20220626	13:45:24	78a5a9f1-cefc-47b4-a882-e8d33c34b5cc	GET	undefined	/standings?id=1&season=2022
+20220626	13:45:31	688d626a-1ae8-4f80-b239-ad288dee1b9a	GET	undefined	/standings?id=1&season=2022
+20220626	13:45:44	dfcd69e9-f8fa-4204-8f4b-4139f14881d4	GET	undefined	/standings?id=1&season=2022
+20220626	13:46:20	51fb44f2-fa5a-4e00-87d1-78c2fa02b2da	GET	undefined	/standings?id=1&season=2022

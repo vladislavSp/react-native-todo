@@ -49,14 +49,14 @@ const deleteLeague = (req, res) => {
 
 const getStanding = async (req, res) => {
     if (!req?.query?.id || !req?.query?.season) {
-        res.status(404).json({ 'message': `League ID/Season params required!` });
+        return res.status(404).json({ 'message': `League ID/Season params required!` });
     }
 
     const standings = await Standings.findOne({
         $or: [{ 'league.id': req.query.id, 'league.season': req.query.season }]
     });
 
-    if (!standings) res.sendStatus(404).json({ 'message': `League standings id: ${req.query.id} and season: ${req.query.season} not found!` });
+    if (!standings) return res.status(404).json({ 'message': 'Standings not found!' });
 
     res.json(standings);
 };
