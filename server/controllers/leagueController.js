@@ -47,6 +47,7 @@ const deleteLeague = (req, res) => {
     res.json(data.leagues);
 };
 
+// Получение таблиц соревнований
 const getStanding = async (req, res) => {
     if (!req?.query?.id || !req?.query?.season) {
         return res.status(404).json({ 'message': `League ID/Season params required!` });
