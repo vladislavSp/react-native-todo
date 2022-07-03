@@ -7,8 +7,8 @@ const FixtureRounds = require('../model/FixtureRounds');
 const Fixtures = require('../model/Fixtures');
 const API_ROUTE = 'v3.football.api-sports.io';
 const API_KEY = '3e0607f5006ef6cb6a14b11c84554d48'; // API KEY from api-football.com
-const LEAGUES_ID = [39];
 const routes = require('./routes');
+const LEAGUES_ID = [39];
 // const apiRouteLeagues = 'https://api.football-data.org/v4/competitions/PL';
 // 61 - Liga 1, 135 - Seria A, 39 -Premier League, 78 - Bundesliga
 // 88 - Eredivisie, 94 - Primeira Liga(Portugal), 140 - La Liga
@@ -23,7 +23,17 @@ const axiosOptions = (route) => ({
     }
 });
 
-// Загрузка команд в определенном сезоне
+const createOptions = { upsert: true, new: true, setDefaultsOnInsert: true }; // опции обновления
+
+const callbackFc = (error, result) => {
+    if (error) {
+        console.log('Error: ' ,error);
+        return;
+    }
+    console.log('Create or update: ', result);
+}
+
+// Загрузка команд в определенном сезоне - Возможно удалить этот запрос TODO
 const downloadTeams = (leagueId = 39, season = 2021) => {
     axios.request(axiosOptions(routes.teams(leagueId, season)))
         .then(async (res) => {
@@ -179,27 +189,24 @@ const downloadFixtures = (leagueId = 39, season = 2022) => {
     const options = axiosOptions(routes.fixtures(leagueId, season));
 
     axios.request(options)
-        .then(async function (res) {
-            const { data: { response } } = res;
+    .then(async function (res) {
+        const { data: { response } } = res;
 
-            try { // создание одной лиги в БД
-                await Fixtures.create({
-                    league: leagueId,
-                    season,
-                    fixtures: response,
-                });
-                console.log('Download fixtures for league: ', leagueId, season);
-            } catch (error) {
-                console.log(error)
-            }
+        try { // создание одной лиги в БД
+            const query = { league: leagueId, season: season };
+            const update = { league: leagueId, season, fixtures: response };
+            await Fixtures.findOneAndUpdate(query, update, createOptions, callbackFc);
+        } catch (error) {
+            console.log(error)
+        }
 
-        }).catch(function (error) {
-            console.error(error);
-        });
+    }).catch(function (error) {
+        console.error(error);
+    });
 }
 
 // Find one and update
-const downloadTest = (leagueId = 39) => {
+const downloadTest = async (leagueId = 39) => {
     axios.request(axiosOptions(`leagues?id=${leagueId}`))
     .then(async (res) => {
         const { data: { response } } = res;
@@ -207,17 +214,8 @@ const downloadTest = (leagueId = 39) => {
 
         const query = { leagueId: league.id }; // параметры поиска
         const update = { leagueId: league.id, name: league.name }; // сущность, которой нужно обновить
-        const options = { upsert: true, new: true, setDefaultsOnInsert: true }; // опции обновления
 
-        TestModel.findOneAndUpdate(query, update, options, function(error, result) {
-            if (error) {
-                console.log(error);
-                // тут можно вернуть статус
-                return;
-            }
-
-            console.log('Doc update with result :', result);
-        });
+        await TestModel.findOneAndUpdate(query, update, createOptions, callbackFc);
     })
     .catch(err => {
         console.log(err);
@@ -232,7 +230,5 @@ const downloadData = () => {
     // downloadTeams();
     // downloadFixtures();
 };
-
-
 
 module.exports = downloadData;
