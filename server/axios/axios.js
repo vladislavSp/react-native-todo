@@ -2,6 +2,7 @@ const axios = require('axios');
 const Leagues = require('../model/Leagues');
 const SeasonTeams = require('../model/SeasonTeams');
 const Standings = require('../model/Standings');
+const TestModel = require('../model/TestModel');
 const API_ROUTE = 'v3.football.api-sports.io';
 const API_KEY = '3e0607f5006ef6cb6a14b11c84554d48'; // API KEY from api-football.com
 const LEAGUES_ID = [39];
@@ -149,7 +150,34 @@ const downloadLeagues = (leagueId = 235) => {
     });
 }
 
+// Find one and update
+const downloadTest = (leagueId = 39) => {
+    axios.request(axiosOptions(`leagues?id=${leagueId}`))
+    .then(async (res) => {
+        const { data: { response } } = res;
+        const { league } = response[0];
+
+        const query = { leagueId: league.id }; // параметры поиска
+        const update = { leagueId: league.id, name: league.name }; // сущность, которой нужно обновить
+        const options = { upsert: true, new: true, setDefaultsOnInsert: true }; // опции обновления
+
+        TestModel.findOneAndUpdate(query, update, options, function(error, result) {
+            if (error) {
+                console.log(error);
+                // тут можно вернуть статус
+                return;
+            }
+
+            console.log('Doc update with result :', result);
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
 const downloadData = () => {
+    // downloadTest();
     // downloadLeagues();
     // downloadStandings();
     // downloadTeams();
