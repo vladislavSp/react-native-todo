@@ -16,7 +16,7 @@ const createNewLeague = (req, res) => {
     }
 
     if (!newLeague.name || !newLeague.country) {
-        return res.status(400).json({ "message": "Name and country are required." });
+        return res.status(400).json({ 'message': 'Name and country are required.' });
     }
 
     data.setLeagues([...data.leagues, newLeague]);
@@ -26,7 +26,7 @@ const createNewLeague = (req, res) => {
 const updateLeague = (req, res) => {
     const league = data.leagues.find(l => l.id === parseInt(req.body.id));
     if (!league) {
-        return res.json({ "message": `League ID ${req.body.id} not found` });
+        return res.json({ 'message': `League ID ${req.body.id} not found` });
     }
     if (req.body.name) league.name = req.body.name;
     if (req.body.country) league.country = req.body.country;
@@ -39,7 +39,7 @@ const updateLeague = (req, res) => {
 const deleteLeague = (req, res) => {
     const league = data.leagues.find(league => league.id === parseInt(req.body.id));
     if (!league) {
-        res.status(404).json({ "message": `League ID ${req.body.id} not found` });
+        res.status(404).json({ 'message': `League ID ${req.body.id} not found` });
     }
 
     const filteredArray = data.leagues.filter(league => league.id !== parseInt(req.body.id));
