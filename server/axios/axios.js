@@ -33,160 +33,60 @@ const callbackFc = (error, result) => {
     console.log('Create or update: ', result);
 }
 
-// Загрузка команд в определенном сезоне - Возможно удалить этот запрос TODO
-const downloadTeams = (leagueId = 39, season = 2021) => {
-    axios.request(axiosOptions(routes.teams(leagueId, season)))
-        .then(async (res) => {
-            const { data: { response } } = res;
-
-            const duplicate = await SeasonTeams.findOne({ leagueId: leagueId, season: season }).exec();
-
-            if (duplicate) {
-                console.log('Duplicate team!');
-                return;
-            }
-
-            let teams = [];
-            async function asyncForEach(arr, callback) {
-                for (let i = 0; i < arr.length; i++) {
-                    console.log('Циклы итерраций скачивания: ', i);
-                    await callback(arr[i], i, arr);
-                }
-            };
-
-            function fetchStatistics(obj) {
-                return new Promise(resolve => {
-                    axios.request(axiosOptions(routes.statistics(leagueId, season, obj.team.id)))
-                        .then(async (res) => {
-                            const { data: dataTeams } = res;
-                            const newObj = { ...obj };
-                            newObj.statistics = dataTeams.response;
-                            teams = [...teams, newObj];
-                            resolve(true);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        })
-                });
-            };
-
-            let newResponse = response.slice(8);
-            // Async forEach
-            asyncForEach(newResponse, async (value) => {
-                await fetchStatistics(value);
-            }).then(async () => {
-                try {
-                    await SeasonTeams.create({
-                        leagueId,
-                        season: season,
-                        teams,
-                    });
-                } catch (error) {
-                    console.log(error);
-                }
-            });
-        })
-        .catch(err => {
-            console.log(err);
-        });
-}
-
 // Загрузка таблиц в коллекцию
-const downloadStandings = (leagueId = 235, season = 2021) => {
+const downloadStandings = (leagueId = 39, season = 2021) => {
     const options = axiosOptions(routes.standings(leagueId, season));
 
     axios.request(options)
-        .then(async (res) => {
-            const { data: { response } } = res;
+    .then(async (res) => {
+        const { data: { response } } = res;
+        const { league } = response[0];
 
-            const duplicate = await Standings.findOne({
-                $or: [{ 'league.id': response[0].league.id, 'league.season': response[0].league.season }]
-            }).exec();
-
-            if (duplicate) {
-                console.log('Duplicate standings!');
-                return;
-            }
-
-            const { league } = response[0];
-
-            try {
-                await Standings.create({
-                    league: {
-                        id: league.id,
-                        name: league.name,
-                        country: league.country,
-                        logo: league.logo,
-                        flag: league.flag,
-                        season: league.season,
-                        standings: league.standings,
-                    }
-                });
-                console.log('Standings download: ', leagueId);
-            } catch (error) {
-                console.log(error);
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
+        try {
+            const query = { 'league.id': league.id, 'league.season': league.season };
+            const update = {
+                league: {
+                    id: league.id,
+                    name: league.name,
+                    country: league.country,
+                    logo: league.logo,
+                    flag: league.flag,
+                    season: league.season,
+                    standings: league.standings,
+                }
+            };
+            Standings.findOneAndUpdate(query, update, createOptions, callbackFc);
+        } catch (error) {
+            console.log(error);
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    });
 }
 
 // Загрузка лиги с конкретным Id
 const downloadLeagues = (leagueId = 235) => {
     axios.request(axiosOptions(`leagues?id=${leagueId}`))
-        .then(async function (res) {
-            const { data: { response } } = res;
-            const duplicate = await Leagues.findOne({ 'league.id': response[0].league.id }).exec();
+    .then(async function (res) {
+        const { data: { response } } = res;
+        const { league, country, seasons } = res.data.response[0];
 
-            if (duplicate) {
-                console.log('Duplicate league!');
-                return;
-            }
-
-            const { league, country, seasons } = res.data.response[0];
-
-            try { // создание одной лиги в БД
-                await Leagues.create({
-                    league,
-                    country,
-                    seasons,
-                });
-                console.log('Download league: ', leagueId);
-            } catch (error) {
-                console.log(error)
-            }
-
-        }).catch(function (error) {
-            console.error(error);
-        });
+        try { // создание одной лиги в БД
+            const query = { 'league.id': response[0].league.id };
+            const update = { league, country, seasons };
+            Leagues.findOneAndUpdate(query, update, createOptions, callbackFc);
+        } catch (error) {
+            console.log(error);
+        }
+    }).catch(function (error) {
+        console.error(error);
+    });
 }
 
+// Раунды в определенном соревновании
 const downloadFixturesRound = (leagueId = 39, season = 2022) => {
     const options = axiosOptions(routes.fixtureRounds(leagueId, season));
-
-    axios.request(options)
-        .then(async function (res) {
-            const { data: { response } } = res;
-
-            try { // создание одной лиги в БД
-                await FixtureRounds.create({
-                    league: leagueId,
-                    season,
-                    rounds: response,
-                });
-                console.log('Download rounds: ', leagueId, season);
-            } catch (error) {
-                console.log(error)
-            }
-
-        }).catch(function (error) {
-            console.error(error);
-        });
-}
-
-const downloadFixtures = (leagueId = 39, season = 2022) => {
-    const options = axiosOptions(routes.fixtures(leagueId, season));
 
     axios.request(options)
     .then(async function (res) {
@@ -194,40 +94,40 @@ const downloadFixtures = (leagueId = 39, season = 2022) => {
 
         try { // создание одной лиги в БД
             const query = { league: leagueId, season: season };
-            const update = { league: leagueId, season, fixtures: response };
-            await Fixtures.findOneAndUpdate(query, update, createOptions, callbackFc);
+            const update = { league: leagueId, season, rounds: response };
+            FixtureRounds.findOneAndUpdate(query, update, createOptions, callbackFc);
         } catch (error) {
             console.log(error)
         }
-
     }).catch(function (error) {
         console.error(error);
     });
 }
 
-// Find one and update
-const downloadTest = async (leagueId = 39) => {
-    axios.request(axiosOptions(`leagues?id=${leagueId}`))
-    .then(async (res) => {
+// Расписание
+const downloadFixtures = (leagueId = 39, season = 2022) => {
+    const options = axiosOptions(routes.fixtures(leagueId, season));
+
+    axios.request(options)
+    .then(async function (res) {
         const { data: { response } } = res;
-        const { league } = response[0];
 
-        const query = { leagueId: league.id }; // параметры поиска
-        const update = { leagueId: league.id, name: league.name }; // сущность, которой нужно обновить
-
-        await TestModel.findOneAndUpdate(query, update, createOptions, callbackFc);
-    })
-    .catch(err => {
-        console.log(err);
+        try {
+            const query = { league: leagueId, season: season };
+            const update = { league: leagueId, season, fixtures: response };
+            Fixtures.findOneAndUpdate(query, update, createOptions, callbackFc);
+        } catch (error) {
+            console.log(error)
+        }
+    }).catch(function (error) {
+        console.error(error);
     });
 }
 
 const downloadData = () => {
-    // downloadTest();
     // downloadLeagues();
     // downloadStandings();
     // downloadFixturesRound();
-    // downloadTeams();
     // downloadFixtures();
 };
 
