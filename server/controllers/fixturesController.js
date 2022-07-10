@@ -5,9 +5,18 @@ const getFixtures = async (req, res) => {
         return res.status(404).json({ 'message': `League ID/Season params required!` });
     }
 
-    const standings = await Fixtures.findOne({
-        $or: [{ 'league.id': req.query.id, 'league.season': req.query.season }]
-    });
+    const page = req?.query?.page || 1; // return 1 if no exist from query
+    const PAGE_SIZE = 7;
+    const skip = (page - 1) * PAGE_SIZE;
+
+    const query = {
+        $or: [{
+            league: req.query.id,
+            season: req.query.season,
+        }]
+    };
+
+    const standings = await Fixtures.findOne(query, { fixtures: { $slice: [skip, PAGE_SIZE] }});
 
     if (!standings) {
         return res.status(404).json({ 'message': `Standings for league/cup ${req.query.id} and season ${req.query.season} not found!` });

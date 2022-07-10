@@ -412,3 +412,17 @@
 20220626	15:12:43	2da33f4f-fa43-47c2-be85-a42b477ddf43	GET	undefined	/standings?id=39&season=2021
 20220626	15:24:27	9f26ca47-7697-4651-9ca9-6770dd4981f8	GET	undefined	/leagues
 20220626	15:24:28	aac3f919-1508-4d12-a15b-8bc6af73efdf	GET	undefined	/standings?id=39&season=2021
+20220710	15:10:57	933be13b-19b6-4123-8c96-a6a88aeed014	GET	undefined	/fixtures?id=39&season=2022
+20220710	15:11:17	72a98d21-b796-4751-9c3f-1021d5fc128e	GET	undefined	/fixtures?id=39&season=2022&page=1
+20220710	15:49:29	96023b14-ba6c-471e-8451-6da4d950900f	GET	undefined	/fixtures?id=39&season=2022&page=1
+20220710	15:49:46	768e78ab-1c7f-4d55-8626-459a0b6c1258	GET	undefined	/fixtures?id=39&season=2022&page=1
+20220710	15:49:56	7190941c-a781-4c76-ac97-6283008f63f5	GET	undefined	/fixtures?id=39&season=2022
+20220710	15:51:27	d95578c4-75e7-4231-a5da-ea48adee024e	GET	undefined	/fixtures?id=39&season=2022
+20220710	15:51:39	75aea025-bc38-4c77-8bc1-24e0ddcb7d09	GET	undefined	/fixtures?id=39&season=2022
+20220710	15:51:52	7c018df6-de5c-480a-83ce-d058aab704da	GET	undefined	/fixtures?id=39&season=2022
+20220710	16:01:23	e45f5f0c-2c58-4d71-985c-72fc2e72f84e	GET	undefined	/fixtures?id=39&season=2022
+20220710	16:01:32	69ea3f41-210f-415f-aea7-d29ab05aa123	GET	undefined	/fixtures?id=39&season=2022
+20220710	16:01:55	ba1faa83-9b16-4833-b918-f9e7dfeb7c5a	GET	undefined	/fixtures?id=39&season=2022
+20220710	16:06:39	7894a885-c893-4104-92c0-344a09642f17	GET	undefined	/fixtures?id=39&season=2022
+20220710	16:15:44	2092434f-4401-4f42-ab13-83c1e1458823	GET	undefined	/fixtures?id=39&season=2022
+20220710	16:17:20	d68f9c73-9805-48fc-8352-eba51d59983f	GET	undefined	/fixtures?id=39&season=2022
