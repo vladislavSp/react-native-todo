@@ -7,6 +7,7 @@ import apiMethods from '../../../api/methods';
 import Tabs from '../Tabs/Tabs';
 import Standings from './Standings/Standings';
 import Shedule from './Shedule/Shedule';
+import { Text, View } from 'react-native';
 
 const TABS = [{
     id: 0,
@@ -42,9 +43,7 @@ const League = ({ route }) => {
     // Обработать ошибку TODO
     if (!teams) return null;
 
-    const changeTabs = id => {
-        setTabState(id);
-    }
+    const changeTabs = id => setTabState(id);
 
     return (
         <MainBg>
@@ -56,7 +55,13 @@ const League = ({ route }) => {
                 )}
 
                 {tabState === TABS[1].id && (
-                    <Shedule />
+                    <Shedule season={season} eventId={eventId} />
+                )}
+
+                {tabState === TABS[2].id && (
+                    <View>
+                        <Text style={{color: '#fff'}}>Статистика игроков</Text>
+                    </View>
                 )}
             </Padding>
         </MainBg>

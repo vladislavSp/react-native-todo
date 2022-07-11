@@ -9,19 +9,16 @@ export const styles = StyleSheet.create({
         lineHeight: 15,
         color: '#fff',
     },
-    matchesGrid: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 24,
-    },
     matchBlock: {
-        height: 60,
-        paddingTop: 18,
+        justifyContent: 'space-between',
+        width: '100%',
+        minHeight: 60,
+        marginBottom: 24,
+        paddingTop: 20,
         paddingHorizontal: 10,
         paddingBottom: 14,
-        borderRadius: 6,
-        width: '48%',
         backgroundColor: '#282A31',
+        borderRadius: 6,
     },
     clock: {
         position: 'absolute',
@@ -37,10 +34,6 @@ export const styles = StyleSheet.create({
         fontFamily: FONT_NAMES.RRBlack,
         fontSize: 10,
         color: '#fff',
-    },
-    teams: {
-        height: '100%',
-        justifyContent: 'space-between',
     },
     team: {
         flexDirection: 'row',
