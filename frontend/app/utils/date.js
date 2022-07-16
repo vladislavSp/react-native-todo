@@ -10,6 +10,9 @@ const arr = [];
 // 
 const groupByDate = (arr) => arr.reduce((acc, cur) => {
     const time = getFormatedDate(cur.fixture.date);
+
+    // формируем объект на основе даты, если его нет - создаем,
+    // если он был, просто переприсваиваем его же
     acc[time] = acc[time] || {
         date: time,
         matches: [],
