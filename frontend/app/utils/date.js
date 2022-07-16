@@ -18,6 +18,9 @@ const groupByDate = (arr) => arr.reduce((acc, cur) => {
         matches: [],
     }
 
+    // закидываем данные в объект определенной даты - т.е создаем привязку объекта к дате
     acc[time].matches.push(cur);
+
+    // возвращаем массив, вместо объекта
     return Object.values(acc);
 }, {});
