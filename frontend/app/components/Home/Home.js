@@ -66,7 +66,7 @@ export default function Home({ navigation }) {
         const routeParams = {
             eventId: league.id,
             eventName: league.name,
-            season: 2021, // TODO переделать на current value
+            season: currentSeason?.year, // TODO переделать на current value
         };
 
         if (CUP) Page = 'Cup';

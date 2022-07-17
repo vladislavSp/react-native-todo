@@ -22,8 +22,8 @@ const TABS = [{
 
 // Страница для динамических данных
 const League = ({ route }) => {
-    const [season, setSeason] = useState(2021);
-    const { eventId } = route.params;
+    const { eventId, season: currentSeason } = route.params;
+    const [season, setSeason] = useState(currentSeason);
     const [teams, setTeams] = useState([]);
     const [tabState, setTabState] = useState(TABS[0].id);
     const [error, setError] = useState('');
