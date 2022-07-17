@@ -6,7 +6,7 @@ const getFixtures = async (req, res) => {
     }
 
     const page = req?.query?.page || 1; // return 1 if no exist from query
-    const PAGE_SIZE = 12;
+    const PAGE_SIZE = 4;
     const skip = (page - 1) * PAGE_SIZE;
 
     const query = {
@@ -16,13 +16,13 @@ const getFixtures = async (req, res) => {
         }]
     };
 
-    const standings = await Fixtures.findOne(query, { fixtures: { $slice: [skip, PAGE_SIZE] }});
+    const fixtures = await Fixtures.findOne(query, { fixtures: { $slice: [skip, PAGE_SIZE] }});
 
-    if (!standings) {
+    if (!fixtures) {
         return res.status(404).json({ 'message': `Standings for league/cup ${req.query.id} and season ${req.query.season} not found!` });
     }
 
-    res.json(standings);
+    res.json(fixtures);
 };
 
 module.exports = getFixtures;
