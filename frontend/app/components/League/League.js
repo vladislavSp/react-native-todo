@@ -40,10 +40,10 @@ const League = ({ route }) => {
         fetchStanding();
     }, []);
 
+    const changeTabs = id => setTabState(id);
+
     // Обработать ошибку TODO
     if (!teams) return null;
-
-    const changeTabs = id => setTabState(id);
 
     return (
         <MainBg>

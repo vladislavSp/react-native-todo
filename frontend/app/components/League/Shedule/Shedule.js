@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FlatList, Text, View } from 'react-native';
 import { setGradients } from '../../../utils/setGradients';
@@ -49,6 +49,13 @@ const Shedule = ({ season, eventId }) => {
         fetchMatches();
     }, []);
 
+    const getDate = useCallback((date) => {
+        const d = new Date(date);
+        const hours = d.getHours();
+        const minutes = d.getMinutes();
+        return `${hours}:${minutes > 9 ? minutes : `0${minutes}`}`;
+    }, []);
+
     if (!dateSortMatches.length) return null;
 
     return (
@@ -56,11 +63,6 @@ const Shedule = ({ season, eventId }) => {
             data={dateSortMatches}
             renderItem={({ item }) => {
                 const { date, matches } = item || {};
-                // const date = new Date(fixture.date);
-                // const hours = date.getHours();
-                // const minutes = date.getMinutes();
-                console.log(item);
-
                 return (
                     <View style={styles.dateBlock}>
                         <Text style={styles.title}>{date}</Text>
@@ -70,7 +72,7 @@ const Shedule = ({ season, eventId }) => {
                                 <View style={styles.matchBlock} key={i}>
                                     <LinearGradient colors={setGradients(5)} style={styles.clock}>
                                         <Text style={styles.clockText}>
-                                            Часы
+                                            {getDate(match?.fixture?.date)}
                                         </Text>
                                     </LinearGradient>
                                     <View style={styles.team}>

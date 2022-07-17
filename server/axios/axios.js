@@ -12,7 +12,7 @@ const LEAGUES_ID = [39];
 // const apiRouteLeagues = 'https://api.football-data.org/v4/competitions/PL';
 // 61 - Liga 1, 135 - Seria A, 39 -Premier League, 78 - Bundesliga
 // 88 - Eredivisie, 94 - Primeira Liga(Portugal), 140 - La Liga
-// 4 - Euro, 1 - World Cup, Russia - 235, 2 - Champions League
+// 4 - Euro, 1 - World Cup, 235 - Russia, 2 - Champions League
 
 const axiosOptions = (route) => ({
     method: 'get',
@@ -68,7 +68,7 @@ const downloadStandings = (leagueId = 235, season = 2022) => {
 }
 
 // Загрузка лиги с конкретным Id
-const downloadLeagues = (leagueId = 235) => {
+const downloadLeagues = (leagueId = 140) => {
     axios.request(axiosOptions(`leagues?id=${leagueId}`))
     .then(async function (res) {
         const { data: { response } } = res;
