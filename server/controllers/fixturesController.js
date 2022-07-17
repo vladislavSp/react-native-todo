@@ -6,7 +6,7 @@ const getFixtures = async (req, res) => {
     }
 
     const page = req?.query?.page || 1; // return 1 if no exist from query
-    const PAGE_SIZE = 4;
+    const PAGE_SIZE = 12;
     const skip = (page - 1) * PAGE_SIZE;
 
     const query = {
