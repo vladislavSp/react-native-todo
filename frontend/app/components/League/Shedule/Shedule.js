@@ -6,6 +6,7 @@ import { API_URL } from '../../../../api/constants';
 import apiMethods from '../../../../api/methods';
 import request from '../../../utils/request';
 import { styles } from './SheduleStyle';
+import { groupByDate } from '../../../utils/date';
 
 const mockData = [
     {
@@ -29,6 +30,7 @@ const Shedule = ({ season, eventId }) => {
     const [matches, setMatches] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const dateSortMatches = useMemo(() => Object.values(groupByDate(matches)), [matches]);
 
     useEffect(() => {
         const fetchMatches = async () => {
@@ -37,6 +39,7 @@ const Shedule = ({ season, eventId }) => {
             const { data, status, error } = await request(url);
 
             if (status < 400) {
+                console.log(data?.fixtures.length);
                 setMatches(data?.fixtures);
             } else {
                 setError(error?.message);
@@ -46,22 +49,43 @@ const Shedule = ({ season, eventId }) => {
         fetchMatches();
     }, []);
 
-    const dateSortMatches = useMemo(() => {
-        // return matches.
-        return null;
-    }, [matches]);
+    if (!dateSortMatches.length) return null;
 
     return (
         <FlatList
-            contentContainerStyle={{ paddingTop: 10 }}
-            columnWrapperStyle={{ justifyContent: 'space-between' }}
-            numColumns={2}
-            data={matches}
+            data={dateSortMatches}
             renderItem={({ item }) => {
-                const { teams, goals, fixture } = item;
-                const date = new Date(fixture.date);
-                const hours = date.getHours();
-                const minutes = date.getMinutes();
+                const { date, matches } = item || {};
+                // const date = new Date(fixture.date);
+                // const hours = date.getHours();
+                // const minutes = date.getMinutes();
+                console.log(item);
+
+                return (
+                    <View style={styles.dateBlock}>
+                        <Text style={styles.title}>{date}</Text>
+
+                        <View style={styles.matchList}>
+                            {matches?.map((match, i) => (
+                                <View style={styles.matchBlock} key={i}>
+                                    <LinearGradient colors={setGradients(5)} style={styles.clock}>
+                                        <Text style={styles.clockText}>
+                                            Часы
+                                        </Text>
+                                    </LinearGradient>
+                                    <View style={styles.team}>
+                                        <Text style={styles.teamText}>{match?.teams?.home.name}</Text>
+                                        <Text style={styles.teamText}>{match?.goals?.home || 0}</Text>
+                                    </View>
+                                    <View style={styles.team}>
+                                        <Text style={styles.teamText}>{match?.teams?.away.name}</Text>
+                                        <Text style={styles.teamText}>{match?.goals?.away || 0}</Text>
+                                    </View>
+                                </View>
+                            ))}
+                        </View>
+                    </View>
+                )
 
                 return (
                     <View style={{ width: '47%', flexDirection: 'row'}}>

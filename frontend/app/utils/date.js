@@ -5,10 +5,8 @@ export const getFormatedDate = (dateStr) => {
     return `${date.getDate()} ${months[date.getMonth()]}`;
 };
 
-const arr = [];
-
-// 
-const groupByDate = (arr) => arr.reduce((acc, cur) => {
+// ф-ция группировки для объектов в массив
+export const groupByDate = arr => arr?.reduce((acc, cur) => {
     const time = getFormatedDate(cur.fixture.date);
 
     // формируем объект на основе даты, если его нет - создаем,
@@ -22,5 +20,5 @@ const groupByDate = (arr) => arr.reduce((acc, cur) => {
     acc[time].matches.push(cur);
 
     // возвращаем массив, вместо объекта
-    return Object.values(acc);
+    return acc;
 }, {});
